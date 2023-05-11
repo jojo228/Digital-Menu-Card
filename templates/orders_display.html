@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<style>
+    th {
+        color: #000066;
+        font-size: 20px;
+    }
+    td {
+        color: #333300;
+        font-size: 15px;
+    }
+</style> 
+{% for id,value in d.items %}
+    <div class='col-sm-8 col-sm-offset-2'>
+        <table class='table'>
+        <tr>
+            <td><h4>Commande de la table {{id}}</h4></td>
+            <td><a href="{% url 'order_update' id %}" class= "btn btn-success">Prêt</a></td>
+        </tr>
+
+        </table>
+        <table class='table'>
+        <thead>
+            <th>Menu</th>
+            <th>Prix</th>
+            <th>Qté</th>
+        </thead>
+        <tfoot>
+                <br>
+                {% for val in value %}
+                <tr>
+                    <td>{{val.name}}</td>
+                    <td>{{val.price|floatformat:0}}</td>
+                    <td>{{val.quantity}}</td>
+                </tr>
+                {% endfor %}
+        </tfoot>
+        
+        </table> 
+    </div>
+    <br>
+    {% endfor %}
+{% endblock %}
+

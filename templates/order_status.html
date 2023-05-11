@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<style>
+    th {
+        color: #000066;
+        font-size: 20px;
+    }
+    td {
+        color: #333300;
+        font-size: 15px;
+    }
+</style> 
+
+{% for key,value in d.items %}
+<h4>Ordering from Table {{key}}</h4>
+    <div class='col-sm-8 col-sm-offset-2'>
+        <table class='table'>
+        <thead>
+            <th>Menu</th>
+            <th>Prix</th>
+            <th>Qté</th>
+            <th>Statut</th>
+        </thead>
+        <tfoot>
+                <br>
+                {% for val in value %}
+                <tr>
+                    <td>{{val.name}}</td>
+                    <td>{{val.price|floatformat:0}}</td>
+                    <td>{{val.quantity}}</td>
+                    <td>En cuisson</td>
+                </tr>
+                {%endfor%}
+        </tfoot>
+        </table>
+        
+    </div>
+    {%endfor%}
+
+    
+{% endblock %}
+

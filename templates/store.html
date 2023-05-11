@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<title>TDMC</title>
+<meta charset="UTF-8">
+<head>
+  <meta charset="utf-8">
+  <title>TDMC</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Ubuntu&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+</head>
+
+<section id="title">
+  <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-lg-6">
+          <h1 class="crazyb">Marcello beach<pocket></pocket>
+          </h1>
+          <a href="{% url 'cart_detail' %}">
+            <button type="button" class="btn btn-dark btn-lg"><i class="fa fa-shopping-cart"></i> Ma commande  (   {{request.session.cart|length}} )</button>
+          </a>
+          <a href="{% url 'order_status' pk %}">
+            <button type="button" class="btn btn-warning btn-lg"><i class="fa fa-question"></i> Statut</button>
+          </a>
+        </div>
+        <div class="col-lg-6 Punchl">
+          <img class="Burger" src="https://raw.githubusercontent.com/shashanka2a/Digital-Menu-Card/438ca2cfe8e6cceca6cded86ba33f8114ece19c8/static/images/food.svg" alt="qr-scan" />
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+
+
+
+<body>
+
+<!-- Sidebar (hidden by default) -->
+<nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()"
+  class="w3-bar-item w3-button">Fermer</a>
+  <a href="#food" onclick="w3_close()" class="w3-bar-item w3-button">Repas</a>
+  <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">A propos</a>
+</nav>
+
+
+<nav class="navbar-item navbar-expand-md navbar-light text-white px-4 mt-4">
+  <button class="navbar-toggler mb-3" type="button" data-toggle="collapse" data-remote="myRemoteURL.do" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-chevron-circle-down"></i> Categories
+  </button>
+  <div class="collapse navbar-collapse justify-content-center" id="nav">
+    <ul class="nav nav-pills mb-3 justify-content-center flex-column flex-md-row" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">Tout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-pizza-tab" data-toggle="pill" href="#pills-pizza" role="tab" aria-controls="pills-pizza" aria-selected="false">Pizza</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-salade-tab" data-toggle="pill" href="#pills-salade" role="tab" aria-controls="pills-salade" aria-selected="false">Salades</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-burger-tab" data-toggle="pill" href="#pills-burger" role="tab" aria-controls="pills-burger" aria-selected="false">Burgers</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" id="pills-sandwich-tab" data-toggle="pill" href="#pills-sandwich" role="tab" aria-controls="pills-sandwich" aria-selected="false">Sandwiches</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-boisson-tab" data-toggle="pill" href="#pills-boisson" role="tab" aria-controls="pills-boisson" aria-selected="false">Boissons</a>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Pricing -->
+<section id="pricing">
+<div class="tab-content" id="pills-tabContent">
+
+<div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+    {% for product in products %}  
+    <div class="col-lg-4 tab">
+      <form action="" id="add-to-cart-form">
+        {% csrf_token %}
+        <div class="card">
+          <div class="card-header">
+            <h3>{{product.name}}</h3>
+          </div>
+            <br>
+          <div class="card-body">
+            <img class="thumbnail" src="{{product.imageURL}}">
+            <br>
+            <h3 class="pri" style = "  font-size: 1.2rem;
+            font-weight:500;">{{product.price|floatformat:0}}f cfa</h3>
+            <br>
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Ajouter</button>
+          </div>
+        </div>
+      </form>
+      
+      </div>
+      &nbsp;
+    {% endfor %}
+
+</div>
+
+<div class="tab-pane fade" id="pills-pizza" role="tabpanel" aria-labelledby="pills-pizza-tab">
+    {% for product in pizza %}  
+    <div class="col-lg-4 tab">
+      <div class="card" id="add-to-cart-form">
+        <div class="card-header">
+          <h3>{{product.name}}</h3>
+        </div>
+          <br>
+        <div class="card-body">
+          <img class="thumbnail" src="{{product.imageURL}}">
+          <br>
+          <h3 class="pri" style = "  font-size: 1.2rem;
+          font-weight:500;">{{product.price|floatformat:0}}f cfa</h3>
+          <br>
+          <a   type="button" class="btn btn-dark btn-lg btn-block">Ajouter</a>
+        </div>
+      </div>
+      </div>
+      &nbsp;
+    {% endfor %}
+</div>
+
+<div class="tab-pane fade" id="pills-sandwich" role="tabpanel" aria-labelledby="pills-sandwich-tab">
+  {% for product in sandwich %}  
+  <div class="col-lg-4 tab">
+    <div class="card" id="add-to-cart-form">
+      <div class="card-header">
+        <h3>{{product.name}}</h3>
+      </div>
+        <br>
+      <div class="card-body">
+        <img class="thumbnail" src="{{product.imageURL}}">
+        <br>
+        <h3 class="pri" style = "  font-size: 1.2rem;
+        font-weight:500;">{{product.price|floatformat:0}}f cfa</h3>
+        <br>
+        <a   type="button" class="btn btn-dark btn-lg btn-block">Ajouter</a>
+      </div>
+    </div>
+    </div>
+    &nbsp;
+  {% endfor %}
+</div>
+
+
+<div class="tab-pane fade" id="pills-burger" role="tabpanel" aria-labelledby="pills-sandwich-tab">
+  {% for product in burger %}  
+  <div class="col-lg-4 tab">
+    <div class="card" id="add-to-cart-form">
+      <div class="card-header">
+        <h3>{{product.name}}</h3>
+      </div>
+        <br>
+      <div class="card-body">
+        <img class="thumbnail" src="{{product.imageURL}}">
+        <br>
+        <h3 class="pri" style = "  font-size: 1.2rem;
+        font-weight:500;">{{product.price|floatformat:0}}f cfa</h3>
+        <br>
+        <a   type="button" class="btn btn-dark btn-lg btn-block">Ajouter</a>
+      </div>
+    </div>
+    </div>
+    &nbsp;
+  {% endfor %}
+</div>
+
+
+
+<div class="tab-pane fade" id="pills-boisson" role="tabpanel" aria-labelledby="pills-sandwich-tab">
+  {% for product in boisson %}  
+  <div class="col-lg-4 tab">
+    <div class="card" id="add-to-cart-form">
+      <div class="card-header">
+        <h3>{{product.name}}</h3>
+      </div>
+        <br>
+      <div class="card-body">
+        <img class="thumbnail" src="{{product.imageURL}}">
+        <br>
+        <h3 class="pri" style = "  font-size: 1.2rem;
+        font-weight:500;">{{product.price|floatformat:0}}f cfa</h3>
+        <br>
+        <a   type="button" class="btn btn-dark btn-lg btn-block">Ajouter</a>
+      </div>
+    </div>
+    </div>
+    &nbsp;
+  {% endfor %}
+</div>
+
+
+
+<div class="tab-pane fade" id="pills-salade" role="tabpanel" aria-labelledby="pills-sandwich-tab">
+  {% for product in salade %}  
+  <div class="col-lg-4 tab">
+    <div class="card" id="add-to-cart-form">
+      <div class="card-header">
+        <h3>{{product.name}}</h3>
+      </div>
+        <br>
+      <div class="card-body">
+        <img class="thumbnail" src="{{product.imageURL}}">
+        <br>
+        <h3 class="pri" style = "  font-size: 1.2rem;
+        font-weight:500;">{{product.price|floatformat:0}}f cfa</h3>
+        <br>
+        
+        <button   type="button" class="btn btn-dark btn-lg btn-block">Ajouter</button>
+      </div>
+    </div>
+    </div>
+    &nbsp;
+  {% endfor %}
+</div>
+</section>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#add-to-cart-form').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: '{% url "cart_add" %}',
+            type: 'post',
+            data: formData, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
+            success: function(data) {
+                if (data.success) {
+                    alert('Item added to cart!');
+                } else {
+                    alert('Failed to add item to cart.');
+                }
+            },
+            error: function() {
+                alert('Failed to add item to cart.');
+            }
+        });
+    });
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
+
