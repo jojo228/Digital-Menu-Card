@@ -9,12 +9,16 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Ubuntu&display=swap" rel="stylesheet">
   <!-- Font Awesome -->
-  <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}" />
+	<!-- Bootstrap 4 CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'bs4/bootstrap.min.css' %}" />
+	<!-- Main Jquery -->
+	<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+	<!-- Bootstrap 4 JS -->
+	<script type="text/javascript" src="{% static 'bs4/bootstrap.min.js' %}"></script>
+  <!-- Custom JS -->
+  <script type="text/javascript" src="{% static 'js/add_to_cart.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
 </head>
@@ -26,8 +30,8 @@
         <div class="col-lg-6">
           <h1 class="crazyb">Marcello beach<pocket></pocket>
           </h1>
-          <a href="{% url 'cart_detail' %}">
-            <button type="button" class="btn btn-dark btn-lg"><i class="fa fa-shopping-cart"></i> Ma commande  (   {{request.session.cart|length}} )</button>
+          <a href="{% url 'cart' %}">
+            <button type="button" class="btn btn-dark btn-lg"><i class="fa fa-shopping-cart"></i> Ma commande  ( <span class="cart-list">  {{request.session.cartdata|length}}</span>)</button>
           </a>
           <a href="{% url 'order_status' pk %}">
             <button type="button" class="btn btn-warning btn-lg"><i class="fa fa-question"></i> Statut</button>
@@ -92,8 +96,6 @@
 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
     {% for product in products %}  
     <div class="col-lg-4 tab">
-      <form action="" id="add-to-cart-form">
-        {% csrf_token %}
         <div class="card">
           <div class="card-header">
             <h3>{{product.name}}</h3>
@@ -103,13 +105,15 @@
             <img class="thumbnail" src="{{product.imageURL}}">
             <br>
             <h3 class="pri" style = "  font-size: 1.2rem;
-            font-weight:500;">{{product.price|floatformat:0}}f cfa</h3>
+            font-weight:500;"><span class="product-price-{{product.id}}">{{product.price}} </span></h3>
             <br>
-            <input type="hidden" name="product_id" value="{{ product.id }}">
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Ajouter</button>
+            <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
+            <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
+            <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
+            <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
+            <button type="submit" class="btn btn-dark btn-lg btn-block add-to-cart" data-index="{{product.id}}">Ajouter</button>
           </div>
         </div>
-      </form>
       
       </div>
       &nbsp;
@@ -120,7 +124,7 @@
 <div class="tab-pane fade" id="pills-pizza" role="tabpanel" aria-labelledby="pills-pizza-tab">
     {% for product in pizza %}  
     <div class="col-lg-4 tab">
-      <div class="card" id="add-to-cart-form">
+      <div class="card">
         <div class="card-header">
           <h3>{{product.name}}</h3>
         </div>
@@ -142,7 +146,7 @@
 <div class="tab-pane fade" id="pills-sandwich" role="tabpanel" aria-labelledby="pills-sandwich-tab">
   {% for product in sandwich %}  
   <div class="col-lg-4 tab">
-    <div class="card" id="add-to-cart-form">
+    <div class="card">
       <div class="card-header">
         <h3>{{product.name}}</h3>
       </div>
@@ -165,7 +169,7 @@
 <div class="tab-pane fade" id="pills-burger" role="tabpanel" aria-labelledby="pills-sandwich-tab">
   {% for product in burger %}  
   <div class="col-lg-4 tab">
-    <div class="card" id="add-to-cart-form">
+    <div class="card">
       <div class="card-header">
         <h3>{{product.name}}</h3>
       </div>
@@ -189,7 +193,7 @@
 <div class="tab-pane fade" id="pills-boisson" role="tabpanel" aria-labelledby="pills-sandwich-tab">
   {% for product in boisson %}  
   <div class="col-lg-4 tab">
-    <div class="card" id="add-to-cart-form">
+    <div class="card">
       <div class="card-header">
         <h3>{{product.name}}</h3>
       </div>
@@ -213,7 +217,7 @@
 <div class="tab-pane fade" id="pills-salade" role="tabpanel" aria-labelledby="pills-sandwich-tab">
   {% for product in salade %}  
   <div class="col-lg-4 tab">
-    <div class="card" id="add-to-cart-form">
+    <div class="card">
       <div class="card-header">
         <h3>{{product.name}}</h3>
       </div>
@@ -233,31 +237,6 @@
   {% endfor %}
 </div>
 </section>
-
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $('#add-to-cart-form').submit(function(event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
-        $.ajax({
-            url: '{% url "cart_add" %}',
-            type: 'post',
-            data: formData, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
-            success: function(data) {
-                if (data.success) {
-                    alert('Item added to cart!');
-                } else {
-                    alert('Failed to add item to cart.');
-                }
-            },
-            error: function() {
-                alert('Failed to add item to cart.');
-            }
-        });
-    });
-</script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

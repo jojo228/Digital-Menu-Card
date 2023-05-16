@@ -4,7 +4,7 @@ from django.db import models
 
 class Item(models.Model):
     name = models.CharField(max_length=30)
-    price = models.FloatField()
+    price = models.IntegerField()
     image = models.ImageField(null=True, blank=True)
     desc = models.TextField()
 
