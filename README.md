@@ -8,39 +8,3 @@ It tracks all the information and details about the customers. We have read, ord
 All the records of the food items can be update by the admin and the customers can view the food item lists. Also this view manages the order detail i.e the food items ordered and the details of the table number, where that food item has to be served. 
 
 
-## Environment
-
-```sh
-$  pip install -r requirements.txt
-```
-
-
-## Run
-
-
-```python
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
-```
-
-
-## UI
-
-### Customer View
-
-![home](homepage.jpeg)
-
-![cart](cartdetails.jpeg)
-
-### Manager View
-
-![order](ordersdisplay.jpeg)
-
-#### Table 1
-
-![qr1](url_qrcode1.png)
-
-#### Table 2
-
-![qr2](url_qrcode2.png)
