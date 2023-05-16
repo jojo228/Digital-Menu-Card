@@ -45,7 +45,18 @@
       </div>
       
     </section>
+<br>
+
+    <div class="text-center">
+      <a href="{% url 'orders_display' %}">
+      <button type="button" class="btn btn-primary btn-lg">Commandes</button>
+    </a>
+    <a href="{% url 'generate_code' %}">
+      <button type="button" class="btn btn-primary btn-lg">Générer Code</button>
+    </a>
+    </div>
     
     {% endblock %}
+    
 </body>
 </html>

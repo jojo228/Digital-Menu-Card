@@ -19,6 +19,11 @@ def home(request):
     return render(request, 'base.html')
 
 
+def generate_code(request):
+
+    return render(request, 'generate_qr_code.html')
+
+
 def store(request,pk):
     products = Item.objects.all()
     global present_pk
