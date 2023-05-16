@@ -5,9 +5,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 
+    #homepage  urls
     path('', home, name='home'),
 
-    #store
+    #store urls
     path('store/<int:pk>/', store, name='store'),
 
     #cart urls
@@ -16,9 +17,10 @@ urlpatterns = [
     path('update-cart', update_cart_item, name='update-cart'),
     path('delete-from-cart', delete_cart_item, name='delete-from-cart'),
 
-    # path('cart/cart_clear/',cart_clear, name='cart_clear'),
-    # path('cart/cart-detail/',cart_detail,name='cart_detail'),
+    #checkout urls
     path('orderAlP/', checkout, name='orderit'),
+
+    #order urls
     path('orderstatus/<int:pk>',order_status,name='order_status'),
     path('order_update/<int:id>/',order_update,name='order_update'),
     path('ordersdisplay/',orders_display,name='orders_display')
