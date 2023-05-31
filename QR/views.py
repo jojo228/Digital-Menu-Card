@@ -121,42 +121,43 @@ def update_cart_item(request):
 
 
 # Checkout
+
 def checkout(request):
-	global present_pk
-	table_obj = Table.objects.get_or_create(table_no=present_pk)
-	total_amt=0
-	totalAmt=0
-	cart = Cart(request)
-	
-	if 'cartdata' in request.session:
-		for p_id,item in request.session['cartdata'].items():
-			total_amt+=int(item['qty'])*float(item['price'])
-			# OrderItems
-			items=OrderItem.objects.create(
-				table=table_obj[0],
-				name=item['name'],
-				quantity=item['qty'],
-				price=item['price'],
-				)
-		tab_obj = Table.objects.filter(table_no=present_pk)
-		tab_obj.total = float(item['qty'])*float(item['price'])
-		cart_data=request.session['cartdata']    
-		cart_data.clear()    
-	return redirect('store', present_pk)
+    global present_pk
+    table_obj, _ = Table.objects.get_or_create(table_no=present_pk)
+    cart_data = request.session.get('cartdata', {})
+    total_amt = 0
+
+    for item in cart_data.values():
+        total_amt += int(item['qty']) * float(item['price'])
+        OrderItem.objects.create(
+            table=table_obj,
+            name=item['name'],
+            quantity=item['qty'],
+            price=item['price'],
+        )
+
+    table_obj.total = total_amt
+    table_obj.save()
+
+    cart_data.clear()
+    request.session['cartdata'] = cart_data
+
+    return redirect('store', present_pk)
+
 
 
 #admin dash
 def orders_display(request):
     d = {} 
     tables = [elem[0] for elem in list(Table.objects.all().values_list('table_no'))]
-    #print(tables)
     for i in range(len(tables)):
         table_obj = Table.objects.get(table_no = tables[i])
         orders = OrderItem.objects.filter(table=table_obj)
         d[tables[i]] = list(orders.values())
-    #print(d)
     context = {"d":d}
     return render(request, 'orders_display.html',context)
+
 
 
 def order_status(request,pk):

@@ -1,6 +1,21 @@
 from django.db import models
+from .helpers import generate_slug
 
 # Create your models here.
+
+
+class Store(models.Model):
+    name = models.CharField(max_length=30)
+    slug = models.SlugField(max_length=300, unique=True)
+
+    def __str__(self):
+        return self.name
+    
+    def save(self , *args, **kwargs): 
+        self.slug = generate_slug(self.name)
+        super(Store, self).save(*args, **kwargs)
+
+
 
 class Item(models.Model):
     name = models.CharField(max_length=30)
@@ -18,6 +33,7 @@ class Item(models.Model):
         except:
             url = ''
         return url
+    
 
 class Table(models.Model):
     table_no = models.IntegerField()

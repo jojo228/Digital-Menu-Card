@@ -24,7 +24,7 @@ urlpatterns = [
     #order urls
     path('orderstatus/<int:pk>',order_status,name='order_status'),
     path('order_update/<int:id>/',order_update,name='order_update'),
-    path('ordersdisplay/',orders_display,name='orders_display')
+    path('orders-display/',orders_display,name='orders_display')
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

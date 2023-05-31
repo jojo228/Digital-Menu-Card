@@ -24,7 +24,7 @@ $(document).on("click", ".add-to-cart", function () {
       _vm.attr("disabled", true);
     },
     success: function (res) {
-      $(".cart-list").text(res.totalitems);
+      $(".cart-count").text(res.totalitems);
       _vm.attr("disabled", false);
     },
   });
@@ -47,7 +47,7 @@ $(document).on("click", ".delete-item", function () {
       _vm.attr("disabled", true);
     },
     success: function (res) {
-      $(".cart-list").text(res.totalitems);
+      $(".cart-count").text(res.totalitems);
       _vm.attr("disabled", false);
       $("#cartList").html(res.data);
     },
@@ -72,7 +72,7 @@ $(document).on("click", ".update-item", function () {
       _vm.attr("disabled", true);
     },
     success: function (res) {
-      // $(".cart-list").text(res.totalitems);
+      // $(".cart-count").text(res.totalitems);
       _vm.attr("disabled", false);
       $("#cartList").html(res.data);
     },

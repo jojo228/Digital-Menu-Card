@@ -3,57 +3,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
     <meta charset="utf-8">
-  <title>TDMC</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Ubuntu&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-	<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}" />
-	<!-- Bootstrap 4 CSS -->
-	<link rel="stylesheet" type="text/css" href="{% static 'bs4/bootstrap.min.css' %}" />
-	<!-- Main Jquery -->
-	<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-	<!-- Bootstrap 4 JS -->
-	<script type="text/javascript" src="{% static 'bs4/bootstrap.min.js' %}"></script>
-  <!-- Custom JS -->
-  <script type="text/javascript" src="{% static 'js/add_to_cart.js' %}"></script>
+    <meta http-equiv="refresh" content="5">
+    <title>TDMC</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Ubuntu&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}" />
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bs4/bootstrap.min.css' %}" />
+    <!-- Main Jquery -->
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 JS -->
+    <script type="text/javascript" src="{% static 'bs4/bootstrap.min.js' %}"></script>
+    <!-- Custom JS -->
+    <script type="text/javascript" src="{% static 'js/add_to_cart.js' %}"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/3D_slider.css' %}">
-
-
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+    </style>
 </head>
 <body>
     {% block body_block %}
     <section id="slideshow">
-        <div class="entire-content">
-          <div class="content-carrousel">
-            <figure class="shadow"><img src="{% static 'images/slide_images/1.jpg' %}"/></figure>
-            <figure class="shadow"><img src="{% static 'images/slide_images/2.jpg' %}"/></figure>
-            <figure class="shadow"><img src="{% static 'images/slide_images/3.jpeg' %}"/></figure>
-            <figure class="shadow"><img src="{% static 'images/slide_images/4.jpeg' %}"/></figure>
-            <figure class="shadow"><img src="{% static 'images/slide_images/5.jpeg' %}"/></figure>
-            <figure class="shadow"><img src="{% static 'images/slide_images/6.jpeg' %}"/></figure>
-            <figure class="shadow"><img src="{% static 'images/slide_images/7.jpeg' %}"/></figure>
-            <figure class="shadow"><img src="{% static 'images/slide_images/8.jpeg' %}"/></figure>
-            <figure class="shadow"><img src="{% static 'images/slide_images/9.jpeg' %}"/></figure>
-      </div>
-      </div>
-      <div class="slideshow-title">
-        <h1 class="slideshow-title">Togotulawo Digital-Menu-Card</h1>
-      </div>
-      
+        <!-- Slideshow content -->
     </section>
-<br>
-
+    <br>
+    <!-- Additional content to enable scrolling -->
     <div class="text-center">
-      <a href="{% url 'orders_display' %}">
-      <button type="button" class="btn btn-primary btn-lg">Commandes</button>
-    </a>
-    <a href="{% url 'generate_code' %}">
-      <button type="button" class="btn btn-primary btn-lg">Générer Code</button>
-    </a>
+        <a href="{% url 'orders_display' %}">
+            <button type="button" class="btn btn-primary btn-lg">Commandes</button>
+        </a>
+        <a href="{% url 'generate_code' %}">
+            <button type="button" class="btn btn-warning btn-lg">Générer Code</button>
+        </a>
     </div>
     
     {% endblock %}

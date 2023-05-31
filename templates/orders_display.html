@@ -1,18 +1,11 @@
 {% extends 'base.html' %}
 
 {% block body_block %}
-<style>
-    th {
-        color: #000066;
-        font-size: 20px;
-    }
-    td {
-        color: #333300;
-        font-size: 15px;
-    }
-</style> 
+
+ 
+
 {% for id,value in d.items %}
-    <div class='col-sm-8 col-sm-offset-2'>
+    <div class='col-sm-8 '>
         <table class='table'>
         <tr>
             <td><h4>Commande de la table {{id}}</h4></td>
@@ -40,6 +33,7 @@
         </table> 
     </div>
     <br>
-    {% endfor %}
+{% endfor %}
+
 {% endblock %}
 
