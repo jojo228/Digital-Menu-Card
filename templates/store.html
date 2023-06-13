@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{% static 'meni-style.css' %}">
   
   <!-- Custom JS -->
-  <script type="text/javascript" src="{% static 'js/add_to_cart.js' %}"></script>
+  <!-- <script type="text/javascript" src="{% static 'js/add_to_cart.js' %}"></script> -->
 </head>
 
 <body>
@@ -26,16 +26,15 @@
       <div class="icons">
         <ul class="icons-header">
           <li class="cart-header">
-            <a href="{% url 'cart' %}">
+            <a href="{% url 'cart' store.slug table %}">
               <i class="material-icons">shopping_bag</i>
               <span class="cart-count">{{request.session.cartdata|length}}</span>
             </a>
           </li>
-          <li>
-            <select class="selectpicker" data-width="fit">
-              <option>HR</option>
-              <option>EN</option>
-            </select>
+          <li class="cart-header">
+            <a href="{% url 'order_status' store.slug table %}">
+              <i class="material-icons">info</i>
+            </a>
           </li>
         </ul>
       </div>
@@ -99,7 +98,7 @@
                         <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
                         <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
                         <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
-                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart"
+                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
                             data-index="{{product.id}}">Confirmer</button>
                     </div>
                   </div>
@@ -125,7 +124,7 @@
               </div>
             </div>
             <div class="pro-price col-md-3">
-              <h6 class="menuh6">{{product.price|floatformat:0}}f cfa</h6>
+              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
             </div>
             <div class="pro-cart col-md-5">
               <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
@@ -148,7 +147,12 @@
                     </div>
                     <div id="custom-footer" class="modal-footer">
                       <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                      <button id="btn-custom" type="button" class="btn btn-default">Confirmer</button>
+                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
+                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
+                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
+                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
+                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
+                            data-index="{{product.id}}">Confirmer</button>
                     </div>
                   </div>
                 </div>
@@ -173,7 +177,7 @@
               </div>
             </div>
             <div class="pro-price col-md-3">
-              <h6 class="menuh6">{{product.price|floatformat:0}}f cfa</h6>
+              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
             </div>
             <div class="pro-cart col-md-5">
               <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
@@ -196,7 +200,12 @@
                     </div>
                     <div id="custom-footer" class="modal-footer">
                       <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                      <button id="btn-custom" type="button" class="btn btn-default">Confirmer</button>
+                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
+                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
+                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
+                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
+                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
+                            data-index="{{product.id}}">Confirmer</button>
                     </div>
                   </div>
                 </div>
@@ -221,7 +230,7 @@
               </div>
             </div>
             <div class="pro-price col-md-3">
-              <h6 class="menuh6">{{product.price|floatformat:0}}f cfa</h6>
+              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
             </div>
             <div class="pro-cart col-md-5">
               <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
@@ -244,7 +253,12 @@
                     </div>
                     <div id="custom-footer" class="modal-footer">
                       <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                      <button id="btn-custom" type="button" class="btn btn-default">Confirmer</button>
+                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
+                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
+                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
+                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
+                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
+                            data-index="{{product.id}}">Confirmer</button>
                     </div>
                   </div>
                 </div>
@@ -269,7 +283,7 @@
               </div>
             </div>
             <div class="pro-price col-md-3">
-              <h6 class="menuh6">{{product.price|floatformat:0}}f cfa</h6>
+              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
             </div>
             <div class="pro-cart col-md-5">
               <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
@@ -292,7 +306,12 @@
                     </div>
                     <div id="custom-footer" class="modal-footer">
                       <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                      <button id="btn-custom" type="button" class="btn btn-default">Confirmer</button>
+                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
+                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
+                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
+                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
+                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
+                            data-index="{{product.id}}">Confirmer</button>
                     </div>
                   </div>
                 </div>
@@ -309,5 +328,41 @@
   </div>
 </body>
 <script>document.getElementById("defaultOpen").click();</script>
+<script>
+  // Add to cart
+
+$(document).on("click", ".add-to-cart", function () {
+  var _vm = $(this);
+  var _index = _vm.attr("data-index");
+  var _qty = $(".product-qty-" + _index).val();
+  var _productId = $(".product-id-" + _index).val();
+  var _productImage = $(".product-image-" + _index).val();
+  var _productName = $(".product-name-" + _index).val();
+  var _productPrice = $(".product-price-" + _index).text();
+  var url = "/<slug>/<table_id>/add-to-cart"; // Replace <slug> and <table_id> with actual values
+  url = url.replace("<slug>", "{{store.slug}}").replace("<table_id>", "{{table}}"); // Replace placeholders with template variables
+  // Ajax
+  $.ajax({
+    url: url,
+    data: {
+      id: _productId,
+      image: _productImage,
+      qty: _qty,
+      name: _productName,
+      price: _productPrice,
+    },
+    dataType: "json",
+    beforeSend: function () {
+      _vm.attr("disabled", true);
+    },
+    success: function (res) {
+      $(".cart-count").text(res.totalitems);
+      _vm.attr("disabled", false);
+    },
+  });
+  // End
+});
+// End
+</script>
 
 </html>

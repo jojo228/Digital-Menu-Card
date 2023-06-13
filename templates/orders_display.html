@@ -4,12 +4,12 @@
 
  
 
-{% for id,value in d.items %}
+{% for table_no, orders in orders_by_table.items %}
     <div class='col-sm-8 '>
         <table class='table'>
         <tr>
-            <td><h4>Commande de la table {{id}}</h4></td>
-            <td><a href="{% url 'order_update' id %}" class= "btn btn-success">Prêt</a></td>
+            <td><h4>Commande de la table {{table_no}}</h4></td>
+            <td><a href="{% url 'order_update' store.slug table_no %}" class= "btn btn-success">Prêt</a></td>
         </tr>
 
         </table>
@@ -20,14 +20,18 @@
             <th>Qté</th>
         </thead>
         <tfoot>
+            {% if orders %}
                 <br>
-                {% for val in value %}
+                {% for order in orders %}
                 <tr>
-                    <td>{{val.name}}</td>
-                    <td>{{val.price|floatformat:0}}</td>
-                    <td>{{val.quantity}}</td>
+                    <td>{{order.name}}</td>
+                    <td>{{order.price|floatformat:0}}</td>
+                    <td>{{order.quantity}}</td>
                 </tr>
                 {% endfor %}
+                {% else %}
+            <p>No orders for this table.</p>
+        {% endif %}
         </tfoot>
         
         </table> 

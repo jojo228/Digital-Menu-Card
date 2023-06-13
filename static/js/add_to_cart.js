@@ -8,7 +8,8 @@ $(document).on("click", ".add-to-cart", function () {
   var _productImage = $(".product-image-" + _index).val();
   var _productName = $(".product-name-" + _index).val();
   var _productPrice = $(".product-price-" + _index).text();
-  
+  var url = "/<slug>/<table_id>/add-to-cart"; // Replace <slug> and <table_id> with actual values
+  url = url.replace("<slug>", "store.slug").replace("<table_id>", "table"); // Replace placeholders with template variables
   // Ajax
   $.ajax({
     url: "/add-to-cart",
@@ -36,9 +37,11 @@ $(document).on("click", ".add-to-cart", function () {
 $(document).on("click", ".delete-item", function () {
   var _pId = $(this).attr("data-item");
   var _vm = $(this);
+  var url = "/<slug>/<table_id>/delete-from-cart"; // Replace <slug> and <table_id> with actual values
+  url = url.replace("<slug>", "store.slug").replace("<table_id>", "table"); // Replace placeholders with template variables
   // Ajax
   $.ajax({
-    url: "/delete-from-cart",
+    url: url,
     data: {
       id: _pId,
     },
@@ -60,9 +63,13 @@ $(document).on("click", ".update-item", function () {
   var _pId = $(this).attr("data-item");
   var _pQty = $(".product-qty-" + _pId).val();
   var _vm = $(this);
+  
+  var url = "/<slug>/<table_id>/update-cart"; // Replace <slug> and <table_id> with actual values
+  url = url.replace("<slug>", "store.slug").replace("<table_id>", "table"); // Replace placeholders with template variables
+
   // Ajax
   $.ajax({
-    url: "/update-cart",
+    url: url,
     data: {
       id: _pId,
       qty: _pQty,
@@ -72,10 +79,10 @@ $(document).on("click", ".update-item", function () {
       _vm.attr("disabled", true);
     },
     success: function (res) {
-      // $(".cart-count").text(res.totalitems);
       _vm.attr("disabled", false);
       $("#cartList").html(res.data);
     },
   });
   // End
 });
+

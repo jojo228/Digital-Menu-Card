@@ -16,12 +16,21 @@ class Store(models.Model):
         super(Store, self).save(*args, **kwargs)
 
 
+class Table(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    table_no = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.store.name} - {self.table_no}"
+    
 
 class Item(models.Model):
+    store = models.ManyToManyField(Store)
     name = models.CharField(max_length=30)
     price = models.IntegerField()
     image = models.ImageField(null=True, blank=True)
-    desc = models.TextField()
+    categorie = models.CharField(max_length=30)
+    description = models.TextField()
 
     def __str__(self):
         return self.name
@@ -35,12 +44,9 @@ class Item(models.Model):
         return url
     
 
-class Table(models.Model):
-    table_no = models.IntegerField()
-
-    def __int__(self):
-        return self.table_no
-
+    def __str__(self):
+        return f"Order #{self.id}"
+    
 
 class OrderItem(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE, related_name='items')

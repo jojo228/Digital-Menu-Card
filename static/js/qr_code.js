@@ -34,8 +34,7 @@ const onGenerateSubmit = (e) => {
 // Generate QR code
 const generateQRCode = (url, size) => {
   const qrcode = new QRCode('qrcode', {
-    //text: url,
-    text: "http://127.0.0.1:8000/store/"+url,
+    text: url,
     width: size,
     height: size,
   });
