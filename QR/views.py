@@ -24,18 +24,28 @@ def generate_code(request):
     return render(request, "generate_qr_code.html")
 
 
+
 def store(request, slug, table_id):
+    # Store the table ID in a global variable for future use
     global present_pk
+    
+    # Get the store object based on the provided slug
     store = Store.objects.get(slug=slug)
+    
+    # Store the table ID
     present_pk = table_id
-    products = Item.objects.filter(
-        store=store
-    )  # Retrieve items belonging to the specific store
+    
+    # Retrieve all items belonging to the specific store
+    products = Item.objects.filter(store=store)
+    
+    # Filter products by category
     pizza = products.filter(categorie="Pizza")
     sandwich = products.filter(categorie="Sandwichs")
     burger = products.filter(categorie="Burgers")
     boisson = products.filter(categorie="Boissons")
     salade = products.filter(categorie="Salades")
+    
+    # Create a context dictionary with the retrieved data
     context = {
         "products": products,
         "pizza": pizza,
@@ -46,40 +56,64 @@ def store(request, slug, table_id):
         "store": store,
         "table": table_id,
     }
-
+    
+    # Render the store.html template with the provided context
     return render(request, "store.html", context)
+
 
 
 # Add to cart
 def add_to_cart(request, slug, table_id):
+    # Get the store object based on the slug
     store = Store.objects.get(slug=slug)
+    
+    # Get the table ID
     present_pk = table_id
-
+    
+    # Create a dictionary to hold the cart data
     cart_p = {}
+    
+    # Populate the cart data with the received GET parameters
     cart_p[str(request.GET["id"])] = {
         "image": request.GET["image"],
         "name": request.GET["name"],
         "qty": request.GET["qty"],
         "price": request.GET["price"],
     }
-
+    
+    # Check if cart data already exists in the session
     if "cartdata" in request.session:
+        # Check if the item already exists in the cart
         if str(request.GET["id"]) in request.session["cartdata"]:
             cart_data = request.session["cartdata"]
+            
+            # Update the quantity of the existing item in the cart
             cart_data[str(request.GET["id"])]["qty"] = int(
                 cart_p[str(request.GET["id"])]["qty"]
             )
+            
             cart_data.update(cart_data)
+            
+            # Update the cart data in the session
             request.session["cartdata"] = cart_data
+            
             present_pk
             print(present_pk)
         else:
             cart_data = request.session["cartdata"]
+            
+            # Add the new item to the cart
             cart_data.update(cart_p)
+            
+            # Update the cart data in the session
             request.session["cartdata"] = cart_data
+            
             print(present_pk)
     else:
+        # If no cart data exists in the session, create a new cart
         request.session["cartdata"] = cart_p
+    
+    # Return a JSON response with the cart data and the total number of items in the cart
     return JsonResponse(
         {
             "data": request.session["cartdata"],
@@ -88,16 +122,29 @@ def add_to_cart(request, slug, table_id):
     )
 
 
+
 # Cart List Page
 def cart_list(request, slug, table_id):
+    # Store the table ID in a global variable for future use
     global present_pk
+    
+    # Get the store object based on the provided slug
     store = Store.objects.get(slug=slug)
+    
+    # Store the table ID
     present_pk = table_id
+    
     total_amt = 0
+    
+    # Check if cart data exists in the session
     if "cartdata" in request.session:
-        table_id
+        table_id  # Not sure what this line does, seems redundant
+        
+        # Calculate the total amount by iterating over the cart items
         for p_id, item in request.session["cartdata"].items():
             total_amt += int(item["qty"]) * float(item["price"])
+        
+        # Render the cart.html template with the cart data, total items, total amount, table ID, and store object
         return render(
             request,
             "cart.html",
@@ -110,6 +157,7 @@ def cart_list(request, slug, table_id):
             },
         )
     else:
+        # If no cart data exists in the session, render the cart.html template with default values
         return render(
             request,
             "cart.html",
@@ -122,17 +170,28 @@ def cart_list(request, slug, table_id):
         )
 
 
+
 # Delete Cart Item
 def delete_cart_item(request):
+    # Get the product ID to delete from the cart
     p_id = str(request.GET["id"])
+    
     if "cartdata" in request.session:
         if p_id in request.session["cartdata"]:
             cart_data = request.session["cartdata"]
+            
+            # Delete the product from the cart
             del request.session["cartdata"][p_id]
+            
             request.session["cartdata"] = cart_data
+    
     total_amt = 0
+    
+    # Recalculate the total amount after deleting the item from the cart
     for p_id, item in request.session["cartdata"].items():
         total_amt += int(item["qty"]) * float(item["price"])
+    
+    # Render the cart-list.html template and return as a JSON response
     t = render_to_string(
         "ajax/cart-list.html",
         {
@@ -141,25 +200,42 @@ def delete_cart_item(request):
             "total_amt": total_amt,
         },
     )
+    
     return JsonResponse({"data": t, "totalitems": len(request.session["cartdata"])})
 
 
-# update Cart Item
-def update_cart_item(request, slug, table_id):
-    global present_pk
-    store = Store.objects.get(slug=slug)
-    present_pk = table_id
 
+# Update Cart Item
+def update_cart_item(request, slug, table_id):
+    # Store the table ID in a global variable for future use
+    global present_pk
+    
+    # Get the store object based on the provided slug
+    store = Store.objects.get(slug=slug)
+    
+    # Store the table ID
+    present_pk = table_id
+    
+    # Get the product ID and quantity from the request
     p_id = str(request.GET["id"])
     p_qty = request.GET["qty"]
+    
     if "cartdata" in request.session:
         if p_id in request.session["cartdata"]:
             cart_data = request.session["cartdata"]
+            
+            # Update the quantity of the product in the cart
             cart_data[str(request.GET["id"])]["qty"] = p_qty
+            
             request.session["cartdata"] = cart_data
+    
     total_amt = 0
+    
+    # Recalculate the total amount after updating the item quantity in the cart
     for p_id, item in request.session["cartdata"].items():
         total_amt += int(item["qty"]) * float(item["price"])
+    
+    # Render the cart-list.html template and return as a JSON response
     t = render_to_string(
         "ajax/cart-list.html",
         {
@@ -174,78 +250,123 @@ def update_cart_item(request, slug, table_id):
     return JsonResponse({"data": t, "totalitems": len(request.session["cartdata"])})
 
 
+
 # Checkout
-
-
 def checkout(request, slug, table_id):
+    # Store the table ID in a global variable for future use
     global present_pk
-    table_id = present_pk
+    
+    # Retrieve the store object based on the provided slug
     store = Store.objects.get(slug=slug)
-
+    
+    # Assign the present_pk value to the table_id
+    table_id = present_pk
+    
+    # Get or create a table object for the store and table_id
     table, _ = Table.objects.get_or_create(store=store, table_no=table_id)
-
+    
+    # Retrieve the cart data from the session
     cart_data = request.session.get("cartdata", {})
     total_amt = 0
-
+    
+    # Iterate over the items in the cart and calculate the total amount
     for item in cart_data.values():
         total_amt += int(item["qty"]) * float(item["price"])
+        
+        # Create an OrderItem object for each item in the cart
         OrderItem.objects.create(
             table=table,
             name=item["name"],
             quantity=item["qty"],
             price=item["price"],
         )
-
+    
+    # Update the total amount of the table and save it
     table.total = total_amt
     table.save()
-
+    
+    # Clear the cart data and update the session
     cart_data.clear()
     request.session["cartdata"] = cart_data
-
+    
+    # Redirect to the store page
     return redirect("store", slug, table_id)
 
 
-# admin dash
+
+# Admin Dashboard
 def orders_display(request, slug):
+    # Retrieve the store object based on the provided slug
     store = Store.objects.get(slug=slug)
+    
     orders_by_table = {}
+    
+    # Get the list of table numbers associated with the store
     tables = [
         elem[0]
         for elem in list(
             Table.objects.all().filter(store=store).values_list("table_no")
         )
     ]
+    
+    # Retrieve orders for each table and store them in the orders_by_table dictionary
     for i in range(len(tables)):
         table_obj = Table.objects.filter(store=store, table_no=tables[i])
         orders = OrderItem.objects.filter(table__in=table_obj)
         orders_by_table[tables[i]] = list(orders.values())
+    
+    # Prepare the context dictionary for rendering the template
     context = {"orders_by_table": orders_by_table, "store": store}
+    
+    # Render the orders_display.html template with the provided context
     return render(request, "orders_display.html", context)
 
 
+
 def order_status(request, slug, table_id):
+    # Store the table ID in a global variable for future use
     global present_pk
+    
+    # Assign the present_pk value to the table_id
     table_id = present_pk
+    
+    # Retrieve the store object based on the provided slug
     store = Store.objects.get(slug=slug)
+    
     d = {}
+    
+    # Get the list of table numbers from all the tables
     tables = [elem[0] for elem in list(Table.objects.all().values_list("table_no"))]
+    
     if table_id in tables:
         table_obj = Table.objects.get(table_no=table_id)
+        
+        # Retrieve the order items for the specified table
         order = OrderItem.objects.filter(table=table_obj)
+        
         d[table_id] = list(order.values())
+        
+        # Prepare the context dictionary for rendering the template
         context = {"d": d}
+        
+        # Render the order_status.html template with the provided context
         return render(request, "order_status.html", context)
     else:
-        return HttpResponse(
-            "<br><br><br><h2><center>Votre commande est prête ✔️</center></h2>"
-        )
+        # If the table is not found, display a message indicating that the order is ready
+        return HttpResponse("<br><br><br><h2><center>Votre commande est prête ✔️</center></h2>")
+
 
 
 def order_update(request, slug, id):
+    # Retrieve the store object based on the provided slug
     store = Store.objects.get(slug=slug)
-    print(store)
-
+    
+    # Retrieve the Table object based on the store and table_no
     t = Table.objects.get(store=store, table_no=id)
-
+    
+    # Delete the table object
     t.delete()
+    
+    # Redirect to the orders_display page
     return redirect("orders_display", slug)
+

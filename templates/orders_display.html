@@ -1,10 +1,38 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="15"> <!-- Refresh the page after 15 seconds -->
+    <title>TDM</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Ubuntu&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}" />
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bs4/bootstrap.min.css' %}" />
+    <!-- Main Jquery -->
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 JS -->
+    <script type="text/javascript" src="{% static 'bs4/bootstrap.min.js' %}"></script>
+    <!-- Custom JS -->
+    <script type="text/javascript" src="{% static 'js/add_to_cart.js' %}"></script>
 
-{% block body_block %}
-
- 
-
-{% for table_no, orders in orders_by_table.items %}
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    {% for table_no, orders in orders_by_table.items %}
     <div class='col-sm-8 '>
         <table class='table'>
         <tr>
@@ -38,6 +66,10 @@
     </div>
     <br>
 {% endfor %}
+    
+</body>
+</html>
 
-{% endblock %}
+
+
 
