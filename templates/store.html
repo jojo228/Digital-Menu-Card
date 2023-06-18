@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-  <title>Meni</title>
+  <title>Menu</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="{% static 'meni-style.css' %}">
+  <link rel="stylesheet" href="{% static 'menu-style.css' %}">
   
   <!-- Custom JS -->
   <!-- <script type="text/javascript" src="{% static 'js/add_to_cart.js' %}"></script> -->
@@ -39,6 +39,83 @@
         </ul>
       </div>
     </div>
+
+    <div class="search-bar">
+      <form action="{% url 'store' store.slug table %}" method="GET">
+        <input type="text" name="search" placeholder="Rechercher..." value="{{ request.GET.search }}">
+        <button type="submit">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Display search results -->
+    {% if request.GET.search %}
+    <h3>Résultats de la recherche pour "{{ request.GET.search }}"</h3>
+    
+    <div>
+      {% if products %}
+      <!-- Display items -->
+      <div class="tab-content"></div>
+      <div id="pizza" class="tab-pane fade in active">
+        {% for product in products %}
+        <div class="row">
+          <div class="rs-menu-list col-md-6">
+            <h3>{{product.name}}</h3>
+            <p>{{product.description}}</p>
+          </div>
+          <div class="menu-pro-right col-md-6">
+            <div class="pro-icon col-md-3">
+              <div class="icon-box">
+                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
+              </div>
+            </div>
+            <div class="pro-price col-md-3">
+              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
+            </div>
+            <div class="pro-cart col-md-5">
+              <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
+                data-target="#myModal1{{ forloop.counter }}">Ajouter<i class="material-icons cart">shopping_cart</i></button>
+              <div class="modal fade" id="myModal1{{ forloop.counter }}" role="dialog">
+                <div id="modalcustom" class="modal-dialog modal-sm">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div id="header-modal" class="modal-header">
+                      <button type="button" id="btn-close" class="close" data-dismiss="modal">&times;</button>
+                      <h4 id="title-modal" class="modal-title">{{product.name}}</h4>
+                    </div>
+                    <div class="row">
+                      <div id="custom-body" class="modal-body">
+                        <div class="col-md-12">
+                          <img src="{{product.imageURL}}">
+                        </div>
+                      </div>
+                    </div>
+                    <div id="custom-footer" class="modal-footer">
+                        <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
+                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
+                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
+                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
+                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
+                            data-index="{{product.id}}">Confirmer</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      {% empty %}
+      <p>Aucun menu trouvé.</p>
+      {% endfor %}
+      {% else %}
+      <p>Aucun menu disponible.</p>
+      {% endif %}
+    </div>
+    {% else %}
 
     <div class="section-header">
       <div class="section-heading">
@@ -67,7 +144,7 @@
           <div class="menu-pro-right col-md-6">
             <div class="pro-icon col-md-3">
               <div class="icon-box">
-                <img src="https://img.icons8.com/ios-glyphs/30/000000/cheeseburger.png" />
+                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
               </div>
             </div>
             <div class="pro-price col-md-3">
@@ -120,7 +197,7 @@
           <div class="menu-pro-right col-md-6">
             <div class="pro-icon col-md-3">
               <div class="icon-box">
-                <img src="https://img.icons8.com/ios-glyphs/30/000000/cheeseburger.png" />
+                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
               </div>
             </div>
             <div class="pro-price col-md-3">
@@ -173,7 +250,7 @@
           <div class="menu-pro-right col-md-6">
             <div class="pro-icon col-md-3">
               <div class="icon-box">
-                <img src="https://img.icons8.com/ios-glyphs/30/000000/cheeseburger.png" />
+                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
               </div>
             </div>
             <div class="pro-price col-md-3">
@@ -226,7 +303,7 @@
           <div class="menu-pro-right col-md-6">
             <div class="pro-icon col-md-3">
               <div class="icon-box">
-                <img src="https://img.icons8.com/ios-glyphs/30/000000/cheeseburger.png" />
+                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
               </div>
             </div>
             <div class="pro-price col-md-3">
@@ -279,7 +356,7 @@
           <div class="menu-pro-right col-md-6">
             <div class="pro-icon col-md-3">
               <div class="icon-box">
-                <img src="https://img.icons8.com/ios-glyphs/30/000000/cheeseburger.png" />
+                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
               </div>
             </div>
             <div class="pro-price col-md-3">
@@ -324,6 +401,7 @@
       </div>
      
     </div>
+    {% endif %}
 
   </div>
 </body>

@@ -44,6 +44,11 @@ def store(request, slug, table_id):
     burger = products.filter(categorie="Burgers")
     boisson = products.filter(categorie="Boissons")
     salade = products.filter(categorie="Salades")
+
+    # Search functionality
+    search_query = request.GET.get("search")
+    if search_query:
+        products = products.filter(name__icontains=search_query)
     
     # Create a context dictionary with the retrieved data
     context = {
