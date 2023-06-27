@@ -1,5 +1,4 @@
 ﻿* {
-  font-family: Abril Fatface, Times New Roman, Times, serif;
   box-sizing: border-box;
   user-select: none;
 }
@@ -7,8 +6,9 @@
   margin:20px 0;
 }
 .icons{
-  position:absolute;
+  position:fixed;
   right:0;
+  z-index: 1;
 }
 .icons ul{
       display: flex;
@@ -27,9 +27,9 @@
     justify-content: center;
     width: 50px;
     height: 50px;
-    background-color:#5e442e ;
+    background-color:#312783 ;
     box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
-    color:#ddc8a8;
+    color:#ffffff;
     font-size: 22px;
     border-radius: 50%;
     position: relative;
@@ -40,7 +40,7 @@
   background-color:#ddc8a8 ;
 }
 .icons ul li.cart-header a .cart-count{
-  background-color: gray; 
+  background-color: #EA5B0C; 
     position: absolute;
     top: -10px;
     right: -5px;
@@ -51,7 +51,7 @@
     justify-content: center;
     border-radius: 50%;
     font-size: 12px;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 .selectpicker{
   font-size:20px;
@@ -68,8 +68,8 @@
   text-align: center;
   font-size: 45px;
   font-weight: 700;
-  color: #5e442e;
-  font-family: Abril Fatface, Times New Roman, Times, serif;
+  color: #734d2c;
+  font-family:cursive;
 }
 .section-heading {
   position: relative;
@@ -78,7 +78,7 @@
   content: "";
   height: 5px;
   width: 60px;
-  background: #5e442e;
+  background: #312783;
   top: auto;
   left: 0;
   right: 0;
@@ -98,7 +98,7 @@
 #tabs a {
   font-family: Abril Fatface, Times New Roman, Times, serif;
   font-size: 25px;
-  color: #5e442e;
+  color: #EA5B0C;
   text-transform: uppercase;
 }
 #menu-nav {
@@ -108,15 +108,15 @@
     display: flex;
 }
 #menu-nav>li>a:hover{
-  background-color: #ddc8a8;
-  color:#5e442e ;
+  background-color: #d68743;
+  color:#ffffff ;
 }
 #menu-nav::-webkit-scrollbar{
   display: none;
 }
 .red .active a{
-  background-color: #5e442e !important;
-  color: #ddc8a8 !important;
+  background-color: #EA5B0C !important;
+  color: #ffffff !important;
 }
 .rs-menu-list {
   position: relative;
@@ -140,10 +140,10 @@
 }
 #modalpopup {
   width: 100%;
-  background: #5e442e;
+  background: #ffffff;
   font-size: 20px;
   font-weight: 600;
-  color: #ddc8a8;
+  color: #312783;
   transition: all 0.3s;
   padding: 15px;
   position: relative;
@@ -163,8 +163,8 @@
   margin: 10px;
 }
 #modalpopup:hover{
-  background-color: #ddc8a8;
-  color:#5e442e;
+  background-color: #312783;
+  color:#ffffff;
 }
 .pro-cart {
   flex-wrap: wrap;
@@ -173,7 +173,7 @@
 }
 .menuh6 {
   font-size: 30px;
-  color: #3d322c;
+  color: #EA5B0C;
 }
 .cart {
   vertical-align: middle;
@@ -183,18 +183,18 @@
   display: block;
 }
 #title-modal {
-  color: #ddc8a8;
+  color: #ffffff;
   text-transform: uppercase;
   font-weight: 600;
   font-size: 18px;
   font-family: Abril Fatface, Times New Roman, Times, serif;
 }
 #header-modal {
-  background-color: #5e442e;
+  background-color: #EA5B0C;
 }
 #btn-close {
   font-size: 25px;
-  color: #ddc8a8;
+  color: #ffffff;
   opacity: 1;
   margin-top: auto;
 }
@@ -211,10 +211,10 @@
   padding: 0;
 }
 #btn-custom {
-  border-color: #5e442e;
+  border-color: #312783;
   text-transform: uppercase;
   font-weight: 600;
-  color: #5e442e;
+  color: #EA5B0C;
   width: 170px;
 }
 #btn-custom:hover {
@@ -251,6 +251,7 @@
 }
 .rs-menu-list h3 {
   margin-top: 0;
+  color: #EA5B0C;
 }
 
 @media (max-width: 992px) {
@@ -297,6 +298,7 @@
   width: 40px;
   height: 40px;
   border: none;
+  color: #EA5B0C;
   background-color: transparent;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;

@@ -20,14 +20,14 @@
 
 <body>
 
-
+  <div class="fixed-nav">
   <div class="container">
     <div class="navbar">
       <div class="icons">
         <ul class="icons-header">
           <li class="cart-header">
             <a href="{% url 'cart' store.slug table %}">
-              <i class="material-icons">shopping_bag</i>
+              <i class="material-icons">shopping_cart</i>
               <span class="cart-count">{{request.session.cartdata|length}}</span>
             </a>
           </li>
@@ -92,7 +92,9 @@
                         </div>
                       </div>
                     </div>
+                    
                     <div id="custom-footer" class="modal-footer">
+                        <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
                         <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                         <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
                         <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
@@ -119,7 +121,7 @@
 
     <div class="section-header">
       <div class="section-heading">
-        <h2 class="title">Menu</h2>
+        <h2 class="title"><img src="{% static 'TDM LOGO_Plan de travail 1.svg' %}" alt="TDM"></h2>
       </div>
     </div>
 
@@ -170,6 +172,9 @@
                       </div>
                     </div>
                     <div id="custom-footer" class="modal-footer">
+                    <div>
+                      <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
+                      </div>
                         <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                         <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
                         <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
@@ -223,6 +228,7 @@
                       </div>
                     </div>
                     <div id="custom-footer" class="modal-footer">
+                    <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
                       <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                         <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
                         <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
@@ -276,6 +282,7 @@
                       </div>
                     </div>
                     <div id="custom-footer" class="modal-footer">
+                    <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
                       <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                         <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
                         <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
@@ -329,6 +336,7 @@
                       </div>
                     </div>
                     <div id="custom-footer" class="modal-footer">
+                    <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
                       <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                         <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
                         <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
@@ -382,6 +390,7 @@
                       </div>
                     </div>
                     <div id="custom-footer" class="modal-footer">
+                    <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
                       <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                         <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
                         <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
@@ -403,6 +412,7 @@
     </div>
     {% endif %}
 
+  </div>
   </div>
 </body>
 <script>document.getElementById("defaultOpen").click();</script>

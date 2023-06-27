@@ -12,6 +12,11 @@
     }
 </style> 
 
+<div>
+    <p>Votre commande a ete bien prise en compte, Merci de patienter un instant !</p>
+    <p>Cliquer ici pour revenir sur la page d'accueil <a href="{% url 'store' store.slug table %}">accueil</a> </p>
+</div>
+
 {% for key,value in d.items %}
 <h4>Etat de ma commande Table N˚ {{key}}</h4>
     <div class='col-sm-8 col-sm-offset-2'>

@@ -177,7 +177,17 @@ def cart_list(request, slug, table_id):
 
 
 # Delete Cart Item
-def delete_cart_item(request):
+def delete_cart_item(request, slug, table_id):
+
+    # Store the table ID in a global variable for future use
+    global present_pk
+    
+    # Get the store object based on the provided slug
+    store = Store.objects.get(slug=slug)
+    
+    # Store the table ID
+    present_pk = table_id
+
     # Get the product ID to delete from the cart
     p_id = str(request.GET["id"])
     
@@ -203,6 +213,8 @@ def delete_cart_item(request):
             "cart_data": request.session["cartdata"],
             "totalitems": len(request.session["cartdata"]),
             "total_amt": total_amt,
+            "table": table_id,
+            "store": store,
         },
     )
     
@@ -295,7 +307,7 @@ def checkout(request, slug, table_id):
     request.session["cartdata"] = cart_data
     
     # Redirect to the store page
-    return redirect("store", slug, table_id)
+    return redirect("order_status", slug, table_id)
 
 
 
@@ -341,10 +353,10 @@ def order_status(request, slug, table_id):
     d = {}
     
     # Get the list of table numbers from all the tables
-    tables = [elem[0] for elem in list(Table.objects.all().values_list("table_no"))]
+    tables = [elem[0] for elem in list(Table.objects.all().filter(store=store).values_list("table_no"))]
     
     if table_id in tables:
-        table_obj = Table.objects.get(table_no=table_id)
+        table_obj = Table.objects.get(store=store, table_no=table_id)
         
         # Retrieve the order items for the specified table
         order = OrderItem.objects.filter(table=table_obj)
@@ -352,7 +364,7 @@ def order_status(request, slug, table_id):
         d[table_id] = list(order.values())
         
         # Prepare the context dictionary for rendering the template
-        context = {"d": d}
+        context = {"d": d, "table": table_id, "store": store,}
         
         # Render the order_status.html template with the provided context
         return render(request, "order_status.html", context)
