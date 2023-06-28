@@ -1,21 +1,14 @@
 {% extends 'base.html' %}
 
 {% block body_block %}
-<style>
-    th {
-        color: #000066;
-        font-size: 20px;
-    }
-    td {
-        color: #333300;
-        font-size: 15px;
-    }
-</style> 
-
-<div>
-    <p>Votre commande a ete bien prise en compte, Merci de patienter un instant !</p>
-    <p>Cliquer ici pour revenir sur la page d'accueil <a href="{% url 'store' store.slug table %}">accueil</a> </p>
-</div>
+ 
+<div class="alert alert-success" role="alert">
+    Votre commande a été bien prise en compte, Merci de patienter un instant !
+    </div>
+    <a href="{% url 'store' store.slug table %}">
+        <button class="btn-store">Voir Menu</button>
+      </a>
+      <br>
 
 {% for key,value in d.items %}
 <h4>Etat de ma commande Table N˚ {{key}}</h4>

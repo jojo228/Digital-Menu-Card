@@ -370,7 +370,7 @@ def order_status(request, slug, table_id):
         return render(request, "order_status.html", context)
     else:
         # If the table is not found, display a message indicating that the order is ready
-        return HttpResponse("<br><br><br><h2><center>Votre commande est prête ✔️</center></h2>")
+        return HttpResponse("<br><br><br><h2><center>Vous n'avez aucune commande en cours ✔️</center></h2>")
 
 
 

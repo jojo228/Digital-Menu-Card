@@ -1,177 +1,56 @@
-body
-{
-  text-align: center;
-}
-a
-{
-  font-family: "Ubuntu";
-}
-
-                     /* Navbar */
-#title
-{
-  background-color: #ff6f3c;
-}
-.navbar
-{
-  padding:0 0 70px;
-}
-.navbar-brand
-{
-  font-family: "Ubuntu";
-  font-size: 2rem;
-  font-weight: bold;
-}
-                    /* Container1 */
-h1
-{
-  font-family: "Montserrat";
-  font-size: 3rem;
-  line-height: 1.5;
-}
-.container-fluid
-{
-  padding:2% 14%;
-}
-.nav-item
-{
-  padding:15px;
-}
-.nav-link
-{
-  font-size: 1.1rem;
-}
-.download-b
-{
-  margin:5% 3% 5% 0;
-}
-.Burger
-{
-  height: 80%;
-  width: 80%;
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.crazyb
-{
-  color: #fff;
-  font-family: "Montserrat";
-  font-weight: 900;
+th {
+    color: #000066;
+    font-size: 20px;
 }
-                    /* Features */
-.container
-{
-  padding:10% 7% ;
-  font-family: "Montserrat";
-  font-weight:700;
-}
-h3
-{
-  font-size: 1.4rem;
-  font-weight:700;
-}
-.feat
-{
-  font-size: 0.9rem;
-  font-weight:400;
-}
-.icon
-{
-  margin-bottom: 15px;
-  color: #ffc93c ;
-}
-.icon:hover
-{
-  color:#ff9a3c;
+td {
+    color: #333300;
+    font-size: 15px;
 }
 
-                     /* container3 */
-#testimonials
-{
-  background-color: #ff6f3c;
-}
-#press
-{
-  background-color: #ff6f3c;
-  padding:0 4% 4% 4% ;
-}
-.bran
-{
-  margin: 20px 20px 50px;
-  width:15%;
-}
-.sniff
-{
-  padding-bottom: 25px;
-  font-family: "Montserrat";
-  font-weight: 900;
-  color:#fff;
-  line-height: 1.5;
+.btn-store {
+  background-color: #EA5B0C;
+  color: #ffff;
+  border: none;
+  padding: 5px 10px;
+  font-size: 18px;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-img
-{
-  margin:20px;
-  width:85%;
-  height:75%;
+.btn-store:hover {
+  background-color: #ddc8a8;
+  color: #5e442e;
 }
-.carousel-item
-{
-  padding:8% 15% ;
-  font-family: "Montserrat";
-  font-weight: 400;
-  color:#fff;
-}
-.testimonial-text
-{
-  font-family: "Montserrat";
-  font-weight: 900;
-}
-
-                  /* Pricing */
-#pricing
-{
-  padding: 8% 15%;
-  font-family: "Montserrat";
-}
-.plan
-{
-  font-weight: 900;
-}
-section{
-  padding-top:20px;
-  padding-bottom:40px;
-}
-                    /* Footer */
-.foot
-{
-  background-color: #ff6f3c;
-  padding: 5% 14% 3% 14%;
-
-}
-.Copyright
-{
-  padding:3%;
-  font-family: "Montserrat";
-  font-weight: 400;
-  font-size: 0.8rem;
-}
-.footte
-{
-  font-family: "Montserrat";
-  font-weight: 900;
-  font-size: 1.8rem;
-  line-height: 1;
-  color: #fff;
-}
-.punk
-{
-  padding: 0.4%;
-}
-                  /* Media Query Breakpoints*/
-@media(max-width:1028px)
-{
-  .testimonial-text
-  {
-    font-size: 1.2rem;
+@media screen and (max-width: 768px) {
+  /* Styles for screens with a maximum width of 768px or less */
+  table {
+      font-size: 14px; /* Adjust font size for smaller screens */
   }
+  .update-item,
+  .delete-item {
+      font-size: 12px; /* Adjust button font size for smaller screens */
+  }
+}
+
+.item-container {
+  display: flex;
+  align-items: center;
+}
+
+.item-container input {
+  width: 3rem;
+  margin-right: 1rem;
+}
+
+.item-container .btn {
+  margin-left: 0.5rem;
 }
