@@ -1,0 +1,56 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+th {
+    color: #000066;
+    font-size: 20px;
+}
+td {
+    color: #333300;
+    font-size: 15px;
+}
+
+.btn-store {
+  background-color: #EA5B0C;
+  color: #ffff;
+  border: none;
+  padding: 5px 10px;
+  font-size: 18px;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-store:hover {
+  background-color: #ddc8a8;
+  color: #5e442e;
+}
+@media screen and (max-width: 768px) {
+  /* Styles for screens with a maximum width of 768px or less */
+  table {
+      font-size: 14px; /* Adjust font size for smaller screens */
+  }
+  .update-item,
+  .delete-item {
+      font-size: 12px; /* Adjust button font size for smaller screens */
+  }
+}
+
+.item-container {
+  display: flex;
+  align-items: center;
+}
+
+.item-container input {
+  width: 3rem;
+  margin-right: 1rem;
+}
+
+.item-container .btn {
+  margin-left: 0.5rem;
+}

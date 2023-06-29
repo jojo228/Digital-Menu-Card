@@ -11,21 +11,35 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from typing import Any, Dict
+from pathlib import Path
+import dj_database_url
+from django.conf.global_settings import LANGUAGES as DJANGO_LANGUAGES
+from django.core.management.utils import get_random_secret_key
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from dotenv import load_dotenv
+load_dotenv()
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#4#ij_lr$mbz^umcmb*opdz3+s_n7m!hjv2ibl@@6eu^^x=ou$'
+#SECRET_KEY = 'django-insecure-3eh82loz89usu9m2o$fk74k!=drmca3^e08_85b1d+^04ueox6'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'False'
 
-ALLOWED_HOSTS = ['192.168.100.196', '192.168.1.67', '192.168.43.53' ,'127.0.0.1', '10.10.5.239', '192.168.43.53' , '192.168.1.67']
+if not DEBUG:
+    DEBUG_PROPAGATE_EXCEPTIONS = True
+
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(',')
+DEVELOPMENT_MODE = os.getenv('DEVELOPMENT_MODE', 'False') == 'True'
 
 
 # Application definition
@@ -77,12 +91,15 @@ WSGI_APPLICATION = 'TDM.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'default': {
+            'ENGINE': os.getenv('DB_ENGINE'),
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT'),
+        }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -132,3 +149,5 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 CART_SESSION_ID = 'cart'
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
