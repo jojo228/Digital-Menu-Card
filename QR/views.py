@@ -287,10 +287,10 @@ def orders_display(request, slug):
         total_amount = OrderItem.objects.filter(table__in=table_obj).aggregate(
             total=Sum("total_amount")
         )
-        orders_by_table[table_no].append({"total_amount": total_amount["total"]})
+        # orders_by_table[table_no].append({"total_amount": total_amount["total"]})
 
     # Prepare the context dictionary for rendering the template
-    context = {"orders_by_table": orders_by_table, "store": store}
+    context = {"orders_by_table": orders_by_table, "store": store, "total_amount": total_amount["total"]}
 
     # Render the orders_display.html template with the provided context
     return render(request, "orders_display.html", context)
