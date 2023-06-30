@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block body_block %}
  
@@ -18,6 +19,7 @@
             <th>Menu</th>
             <th>Prix</th>
             <th>Qté</th>
+            <th>Total</th>
             <th>Statut</th>
         </thead>
         <tfoot>
@@ -27,6 +29,7 @@
                     <td>{{val.name}}</td>
                     <td>{{val.price|floatformat:0}}</td>
                     <td>{{val.quantity}}</td>
+                    <td>{{val.total_amount|floatformat:0}}</td>
                     <td>En cuisson</td>
                 </tr>
                 {%endfor%}
@@ -36,6 +39,5 @@
     </div>
     {%endfor%}
 
-    
 {% endblock %}
 

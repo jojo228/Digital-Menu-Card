@@ -50,9 +50,15 @@ class Item(models.Model):
 
 class OrderItem(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE, related_name='items')
-    name = models.CharField(max_length=20, null=True)
+    name = models.CharField(max_length=100, null=True)
     price = models.CharField(max_length=100,null=True,blank=True)
     quantity = models.PositiveIntegerField(default=1)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=0)
+
+
+    def save(self, *args, **kwargs):
+        self.total_amount = int(self.price) * int(self.quantity)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return str(self.id)

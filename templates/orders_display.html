@@ -1,4 +1,8 @@
+{% load custom_filter %}
+{% load humanize %}
+
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,8 +50,9 @@
             <th>Menu</th>
             <th>Prix</th>
             <th>Qté</th>
+            <th>Total</th>
         </thead>
-        <tfoot>
+        <tr>
             {% if orders %}
                 <br>
                 {% for order in orders %}
@@ -55,13 +60,26 @@
                     <td>{{order.name}}</td>
                     <td>{{order.price|floatformat:0}}</td>
                     <td>{{order.quantity}}</td>
+                    <td>{{order.total_amount}}</td>
                 </tr>
                 {% endfor %}
                 {% else %}
             <p>No orders for this table.</p>
         {% endif %}
-        </tfoot>
-        
+            </tr>
+            
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Montant Total</strong></td>
+                    <td>
+                        {% if orders %}
+                        {% with total_amount=orders|total_amount %}
+                        <strong style="color: blue;">{{ total_amount|intcomma }}f</strong>
+                        {% endwith %}
+                        {% endif %}
+                    </td>
+                </tr>
+            </tfoot>
         </table> 
     </div>
     <br>

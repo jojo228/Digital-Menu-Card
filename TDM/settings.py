@@ -52,12 +52,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'QR',
-    'cart'
+    'cart',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+   'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -151,3 +153,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 CART_SESSION_ID = 'cart'
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+
+#Session configuration
+
+SESSION_EXPIRE_SECONDS = 1800  # Expire after 30 minutes
+
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+
+SESSION_TIMEOUT_REDIRECT = 'redirect_url_/' # Add your URL
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True # Invalid session

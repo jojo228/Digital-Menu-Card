@@ -3,7 +3,6 @@
 {% block body_block %}
 {% load cart_tag %}
 
-
 <main class="container my-4" id="cartList">
     <!-- Featured Products -->
     <!-- <h3 class="my-4 border-bottom pb-1">Commande ({{totalitems}})</h3> -->
@@ -19,18 +18,21 @@
         </thead>
         <tbody>
             {% for product_id,item in cart_data.items %}
-            <tr>
+            <tr id="cart-item-{{ product_id }}"> <!-- Add the item ID as part of the ID -->
                 <td>
                     <img src="{{item.image}}" width="100" />
                     <p>{{item.name}}</p>
                 </td>
                 <td class="item-container">
-                    <input type="number" class="product-qty-{{product_id}}" value="{{item.qty}}" />
-                    <button class="btn btn-sm btn-primary update-item" data-item="{{product_id}}"><i class="fa fa-sync"></i></button>
-                    <button class="btn btn-sm btn-danger delete-item" data-item="{{product_id}}"><i class="fa fa-trash"></i></button>
+                    <div class="quantity-container">
+                        <button class="btn btn-sm btn-primary decrement-qty " data-item="{{product_id}}">-</button>
+                        <input type="number" class="product-qty-{{product_id}}" value="{{item.qty}}" readonly />
+                        <button class="btn btn-sm btn-primary increment-qty " data-item="{{product_id}}">+</button>
+                    </div>
+                    <button class="btn btn-sm btn-danger delete-item" data-item="{{product_id}}" onclick="deleteCartItem('{{ product_id }}')"><i class="fa fa-trash"></i></button>
                 </td>
-                <td>{{item.price}}f</td>
-                <td>{% widthratio item.price 1 item.qty %}f</td>
+                <td class="product-price-{{product_id}}">{{item.price}}f</td>
+                <td class="product-total-{{product_id}}">{% widthratio item.price 1 item.qty %}f</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -38,7 +40,7 @@
             <tr>
                 <td colspan="2"></td>
                 <th>Total</th>
-                <th>{{total_amt|floatformat:0}}f</th>
+                <th><span class="total-amount">{{total_amt|floatformat:0}}f</span></th>
             </tr>
             {% if totalitems %}
             <tr>
@@ -53,57 +55,110 @@
 </main>
 
 <script>
-    // Update item from cart
-$(document).on("click", ".update-item", function () {
-  var _pId = $(this).attr("data-item");
-  var _pQty = $(".product-qty-" + _pId).val();
-  var _vm = $(this);
-  
-  var url = "/<slug>/<table_id>/update-cart"; // Replace <slug> and <table_id> with actual values
-  url = url.replace("<slug>", "{{store.slug}}").replace("<table_id>", "{{table}}"); // Replace placeholders with template variables
-
-  // Ajax
-  $.ajax({
-    url: url,
-    data: {
-      id: _pId,
-      qty: _pQty,
-    },
-    dataType: "json",
-    beforeSend: function () {
-      _vm.attr("disabled", true);
-    },
-    success: function (res) {
-      _vm.attr("disabled", false);
-      $("#cartList").html(res.data);
-    },
-  });
-  // End
+    // Increment quantity
+$(document).on("click", ".increment-qty", function () {
+    var _pId = $(this).attr("data-item");
+    var _qtyInput = $(this).closest("tr").find(".product-qty-" + _pId);
+    var currentQty = parseInt(_qtyInput.val());
+    var newQty = currentQty + 1;
+    _qtyInput.val(newQty); // Update the quantity value in the DOM
+    updateItemTotalAmount(_pId); // Update the total amount for the item
+    updateTotalAmount(); // Update the overall total amount
+    updateCartData(_pId, newQty); // Update the cart session with the new quantity
 });
 
-// Delete item from cart
-$(document).on("click", ".delete-item", function () {
-  var _pId = $(this).attr("data-item");
-  var _vm = $(this);
-  var url = "/<slug>/<table_id>/delete-from-cart"; // Replace <slug> and <table_id> with actual values
-  url = url.replace("<slug>", "{{store.slug}}").replace("<table_id>", "{{table}}"); // Replace placeholders with template variables
-  // Ajax
-  $.ajax({
-    url: url,
-    data: {
-      id: _pId,
-    },
-    dataType: "json",
-    beforeSend: function () {
-      _vm.attr("disabled", true);
-    },
-    success: function (res) {
-      $(".cart-count").text(res.totalitems);
-      _vm.attr("disabled", false);
-      $("#cartList").html(res.data);
-    },
-  });
-  // End
+// Decrement quantity
+$(document).on("click", ".decrement-qty", function () {
+    var _pId = $(this).attr("data-item");
+    var _qtyInput = $(this).closest("tr").find(".product-qty-" + _pId);
+    var currentQty = parseInt(_qtyInput.val());
+    if (currentQty > 1) {
+        var newQty = currentQty - 1;
+        _qtyInput.val(newQty); // Update the quantity value in the DOM
+        updateItemTotalAmount(_pId); // Update the total amount for the item
+        updateTotalAmount(); // Update the overall total amount
+        updateCartData(_pId, newQty); // Update the cart session with the new quantity
+    }
 });
+
+// Update the total amount for the specified item
+function updateItemTotalAmount(productId) {
+    var quantity = parseInt($(".product-qty-" + productId).val());
+    var price = parseFloat($(".product-price-" + productId).text());
+    var totalAmount = quantity * price;
+    $(".product-total-" + productId).text(totalAmount.toFixed(0) + "f");
+}
+
+// Update the overall total amount
+function updateTotalAmount() {
+    var totalAmount = 0;
+    $(".item-container").each(function () {
+        var productId = $(this).find(".delete-item").attr("data-item");
+        var quantity = parseInt($(".product-qty-" + productId).val());
+        var price = parseFloat($(".product-price-" + productId).text());
+        totalAmount += quantity * price;
+    });
+    $(".total-amount").text(totalAmount.toFixed(0) + "f");
+}
+
+// Update the cart session with the new quantity
+function updateCartData(productId, newQty) {
+
+    var url = "/<slug>/<table_id>/update-cart"; // Replace <slug> and <table_id> with actual values
+    url = url.replace("<slug>", "{{store.slug}}").replace("<table_id>", "{{table}}"); // Replace placeholders with template variables
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            product_id: productId,
+            quantity: newQty
+        },
+        success: function (response) {
+            console.log("Cart session updated successfully.");
+        },
+        error: function (error) {
+            console.log("Error updating cart session:", error);
+        }
+    });
+}
+
+// Delete Cart Item
+function deleteCartItem(productId) {
+    var url = "/<slug>/<table_id>/delete-from-cart"; // Replace <slug> and <table_id> with actual values
+    url = url.replace("<slug>", "{{store.slug}}").replace("<table_id>", "{{table}}"); // Replace placeholders with template variables
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            product_id: productId
+        },
+        success: function (response) {
+            if (response.success) {
+                console.log("Item deleted successfully from the cart.");
+
+                // Remove the deleted item from the DOM
+                var deletedItem = $("#cart-item-" + productId);
+                deletedItem.remove();
+
+                // Update the total amount
+                updateTotalAmount(response.total_amt);
+
+                // Perform any additional actions after deleting the item from the cart
+            } else {
+                console.log("Error deleting item from the cart:", response.error);
+            }
+        },
+        error: function (error) {
+            console.log("Error deleting item from the cart:", error);
+        }
+    });
+}
+   
+
 </script>
 {% endblock %}
+
+
+
