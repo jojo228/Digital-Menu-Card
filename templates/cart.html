@@ -12,7 +12,7 @@
             <tr>
                 <th>Menu</th>
                 <th>Quantité</th>
-                <th>Prix</th>
+                <!-- <th>Prix</th> -->
                 <th>Total</th>
             </tr>
         </thead>
@@ -31,14 +31,14 @@
                     </div>
                     <button class="btn btn-sm btn-danger delete-item" data-item="{{product_id}}" onclick="deleteCartItem('{{ product_id }}')"><i class="fa fa-trash"></i></button>
                 </td>
-                <td class="product-price-{{product_id}}">{{item.price}}f</td>
+                <!-- <td class="product-price-{{product_id}}">{{item.price}}f</td> -->
                 <td class="product-total-{{product_id}}">{% widthratio item.price 1 item.qty %}f</td>
             </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="2"></td>
+                <td colspan="1"></td>
                 <th>Total</th>
                 <th><span class="total-amount">{{total_amt|floatformat:0}}f</span></th>
             </tr>

@@ -262,13 +262,15 @@ def checkout(request, slug, table_id):
 
 
 # Admin Dashboard
+from django.db.models import Sum
+
+from django.db.models import Sum
+
 def orders_display(request, slug):
-    # Retrieve the store object based on the provided slug
     store = Store.objects.get(slug=slug)
-
     orders_by_table = {}
+    total_amount_by_table = {}  # Dictionary to store total amount for each table
 
-    # Get the list of table numbers associated with the store
     tables = [
         elem[0]
         for elem in list(
@@ -276,24 +278,23 @@ def orders_display(request, slug):
         )
     ]
 
-    # Retrieve orders for each table and store them in the orders_by_table dictionary
-    for i in range(len(tables)):
-        table_obj = Table.objects.filter(store=store, table_no=tables[i])
+    for table_no in tables:
+        table_obj = Table.objects.filter(store=store, table_no=table_no)
         orders = OrderItem.objects.filter(table__in=table_obj)
-        orders_by_table[tables[i]] = list(orders.values())
+        orders_by_table[table_no] = list(orders.values())
 
-    # Calculate the total amount for each table and add it to the orders_by_table dictionary
-    for table_no, orders in orders_by_table.items():
-        total_amount = OrderItem.objects.filter(table__in=table_obj).aggregate(
-            total=Sum("total_amount")
-        )
-        # orders_by_table[table_no].append({"total_amount": total_amount["total"]})
+        total_amount = orders.aggregate(total=Sum("total_amount"))
+        total_amount_by_table[table_no] = total_amount["total"]
 
-    # Prepare the context dictionary for rendering the template
-    context = {"orders_by_table": orders_by_table, "store": store, "total_amount": total_amount["total"]}
+    context = {
+        "orders_by_table": orders_by_table,
+        "store": store,
+        "total_amount_by_table": total_amount_by_table,
+    }
 
-    # Render the orders_display.html template with the provided context
     return render(request, "orders_display.html", context)
+
+
 
 
 def order_status(request, slug, table_id):

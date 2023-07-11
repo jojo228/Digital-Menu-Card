@@ -73,8 +73,8 @@
                     <td colspan="3" class="text-right"><strong>Montant Total</strong></td>
                     <td>
                         {% if orders %}
-                        {% with total_amount=orders|total_amount %}
-                        <strong style="color: blue;">{{ total_amount|intcomma }}f</strong>
+                        {% with total_amount_by_table=orders|total_amount %}
+                        <strong style="color: blue;">{{ total_amount_by_table|intcomma }}</strong>
                         {% endwith %}
                         {% endif %}
                     </td>
@@ -87,7 +87,3 @@
     
 </body>
 </html>
-
-
-
-
