@@ -127,6 +127,7 @@
 
     <ul id="menu-nav" class="nav nav-pills red">
       <li id="tabs"><a id="defaultOpen" data-toggle="tab" href="#pizza">Pizza</a></li>
+      <li id="tabs"><a data-toggle="tab" href="#africaine">Africaine</a></li>
       <li id="tabs"><a data-toggle="tab" href="#salades">Salades</a></li>
       <li id="tabs"><a data-toggle="tab" href="#burgers">Burgers</a></li>
       <li id="tabs"><a data-toggle="tab" href="#sandwiches">Sandwiches</a></li>
@@ -156,6 +157,62 @@
               <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
                 data-target="#myModal1{{ forloop.counter }}">Ajouter<i class="material-icons cart">shopping_cart</i></button>
               <div class="modal fade" id="myModal1{{ forloop.counter }}" role="dialog">
+                <div id="modalcustom" class="modal-dialog modal-sm">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div id="header-modal" class="modal-header">
+                      <button type="button" id="btn-close" class="close" data-dismiss="modal">&times;</button>
+                      <h4 id="title-modal" class="modal-title">{{product.name}}</h4>
+                    </div>
+                    <div class="row">
+                      <div id="custom-body" class="modal-body">
+                        <div class="col-md-12">
+                          <img src="{{product.imageURL}}">
+                        </div>
+                      </div>
+                    </div>
+                    <div id="custom-footer" class="modal-footer">
+                    <div>
+                      <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
+                      </div>
+                        <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
+                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
+                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
+                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
+                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
+                            data-index="{{product.id}}">Confirmer</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+      <div id="africaine" class="tab-pane fade in active">
+        {% for product in africaine %}
+        <div class="row">
+          <div class="rs-menu-list col-md-6">
+            <h3>{{product.name}}</h3>
+            <p>{{product.description}}</p>
+          </div>
+          <div class="menu-pro-right col-md-6">
+            <div class="pro-icon col-md-3">
+              <div class="icon-box">
+                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
+              </div>
+            </div>
+            <div class="pro-price col-md-3">
+              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
+            </div>
+            <div class="pro-cart col-md-5">
+              <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
+                data-target="#africaineModal{{ forloop.counter }}">Ajouter<i class="material-icons cart">shopping_cart</i></button>
+              <div class="modal fade" id="#africaineModal{{ forloop.counter }}" role="dialog">
                 <div id="modalcustom" class="modal-dialog modal-sm">
 
                   <!-- Modal content-->

@@ -44,6 +44,7 @@ def store(request, slug, table_id):
     burger = products.filter(categorie="Burgers")
     boisson = products.filter(categorie="Boissons")
     salade = products.filter(categorie="Salades")
+    africaine = products.filter(categorie="Africaine")
 
     # Search functionality
     search_query = request.GET.get("search")
@@ -58,6 +59,7 @@ def store(request, slug, table_id):
         "burger": burger,
         "boisson": boisson,
         "salade": salade,
+        "africaine": africaine,
         "store": store,
         "table": table_id,
     }
