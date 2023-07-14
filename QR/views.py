@@ -32,6 +32,11 @@ def store(request, slug, table_id):
     # Get the store object based on the provided slug
     store = Store.objects.get(slug=slug)
 
+    # Check if the store is active
+    if not store.is_active():
+        # Handle the case when the store is not active
+        return render(request, "inactive_store.html")
+
     # Store the table ID
     present_pk = table_id
 

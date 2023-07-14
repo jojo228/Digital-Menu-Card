@@ -1,19 +1,33 @@
+from django.utils import timezone
 from django.db import models
 from .helpers import generate_slug
 
 # Create your models here.
 
+MEMBERSHIP_CHOICES = [
+        ('B', 'Basic'),
+        ('P', 'Premium'),
+        ('V', 'VIP'),
+    ]
+
 
 class Store(models.Model):
     name = models.CharField(max_length=30)
     slug = models.SlugField(max_length=300, unique=True)
+    membership = models.CharField(max_length=1, choices=MEMBERSHIP_CHOICES, default='B')
+    subscription = models.OneToOneField('Subscription', on_delete=models.SET_NULL, null=True, blank=True, related_name='store_subscription')
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.membership}"
     
     def save(self , *args, **kwargs): 
         self.slug = generate_slug(self.name)
         super(Store, self).save(*args, **kwargs)
+
+    def is_active(self):
+        if self.subscription and self.subscription.end_date >= timezone.now().date():
+            return True
+        return False
 
 
 class Table(models.Model):
@@ -44,10 +58,6 @@ class Item(models.Model):
         return url
     
 
-    def __str__(self):
-        return f"Order #{self.id}"
-    
-
 class OrderItem(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE, related_name='items')
     name = models.CharField(max_length=100, null=True)
@@ -62,3 +72,12 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+class Subscription(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='store_subscription')
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self):
+        return f"Subscription #{self.id} - {self.store.name}"
