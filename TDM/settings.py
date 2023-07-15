@@ -161,6 +161,6 @@ SESSION_EXPIRE_SECONDS = 1800  # Expire after 30 minutes
 
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 
-SESSION_TIMEOUT_REDIRECT = 'redirect_url_/' # Add your URL
+SESSION_TIMEOUT_REDIRECT = 'store_redirect' # Add your URL
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True # Invalid session

@@ -7,6 +7,7 @@ urlpatterns = [
 
     #homepage  urls
     path('home', home, name='home'),
+    path('store_redirect/', store_redirect, name='store_redirect'), 
 
     #store urls
     path('<str:slug>/<int:table_id>/', store, name='store'),

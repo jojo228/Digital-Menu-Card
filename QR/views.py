@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.shortcuts import HttpResponse
@@ -360,3 +360,8 @@ def order_update(request, slug, id):
 
     # Redirect to the orders_display page
     return redirect("orders_display", slug)
+
+
+# Add this view to handle the redirection
+def store_redirect(request):
+    return HttpResponseRedirect(reverse('store', args=[request.session.get('store_slug'), request.session.get('table_id')]))
