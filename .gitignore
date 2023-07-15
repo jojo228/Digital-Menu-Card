@@ -7,7 +7,6 @@
 *.pyc
 __pycache__
 db.sqlite3
-media
 
 # Backup files # 
 *.bak 
@@ -139,6 +138,6 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 
-elzeep/settings.py
+TDM/settings.py
 documentation/
 migrations/
