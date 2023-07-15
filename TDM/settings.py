@@ -33,7 +33,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-DEBUG = os.getenv('DEBUG', 'False') == 'False'
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 if not DEBUG:
     DEBUG_PROPAGATE_EXCEPTIONS = True
@@ -161,6 +161,6 @@ SESSION_EXPIRE_SECONDS = 1800  # Expire after 30 minutes
 
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 
-SESSION_TIMEOUT_REDIRECT = 'store_redirect' # Add your URL
+SESSION_TIMEOUT_REDIRECT = 'session_expired'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True # Invalid session

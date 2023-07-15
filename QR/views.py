@@ -363,5 +363,5 @@ def order_update(request, slug, id):
 
 
 # Add this view to handle the redirection
-def store_redirect(request):
-    return HttpResponseRedirect(reverse('store', args=[request.session.get('store_slug'), request.session.get('table_id')]))
+def session_expired(request):
+    return render(request, "session_expired.html")
