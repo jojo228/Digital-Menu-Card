@@ -41,7 +41,7 @@
         <table class='table'>
         <tr>
             <td><h4>Commande de la table {{table_no}}</h4></td>
-            <td><a href="{% url 'order_update' store.slug table_no %}" class= "btn btn-success">Prêt</a></td>
+            <td><a onsubmit="option.disabled = true; return true;" href="{% url 'order_update' store.slug table_no %}" class= "btn btn-success">Prêt</a></td>
         </tr>
 
         </table>

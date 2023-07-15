@@ -6,7 +6,7 @@
 <div class="alert alert-success" role="alert">
     Votre commande a été bien prise en compte, Merci de patienter un instant !
     </div>
-    <a href="{% url 'store' store.slug table %}">
+    <a onsubmit="option.disabled = true; return true;" href="{% url 'store' store.slug table %}">
         <button class="btn-store">Voir Menu</button>
       </a>
       <br>

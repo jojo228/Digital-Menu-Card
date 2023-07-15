@@ -12,8 +12,8 @@
             <tr>
                 <th>Menu</th>
                 <th>Quantité</th>
-                <!-- <th>Prix</th> -->
-                <th>Total</th>
+                <th>Prix</th>
+                <!-- <th>Total</th> -->
             </tr>
         </thead>
         <tbody>
@@ -31,8 +31,8 @@
                     </div>
                     <button class="btn btn-sm btn-danger delete-item" data-item="{{product_id}}" onclick="deleteCartItem('{{ product_id }}')"><i class="fa fa-trash"></i></button>
                 </td>
-                <!-- <td class="product-price-{{product_id}}">{{item.price}}f</td> -->
-                <td class="product-total-{{product_id}}">{% widthratio item.price 1 item.qty %}f</td>
+                <td class="product-price-{{product_id}}">{{item.price}}f</td>
+                <!-- <td class="product-total-{{product_id}}">{% widthratio item.price 1 item.qty %}f</td> -->
             </tr>
             {% endfor %}
         </tbody>
@@ -46,7 +46,7 @@
             <tr>
                 <td colspan="4" align="right">
                     <a href="https://paygateglobal.com/v1/page?token=2a2b0731-8259-40e3-8df0-26df05801e0e&amount={{total_amt|floatformat:0}}&description=test&identifier=10" class="btn btn-warning btn-sm">Payer et Commander <i class="fa fa-long-arrow-alt-right"></i></a>
-                    <a href="{% url 'orderit' store.slug table %}" class="btn btn-dark btn-sm">Commander <i class="fa fa-long-arrow-alt-right"></i></a>
+                    <a onsubmit="option.disabled = true; return true;" href="{% url 'orderit' store.slug table %}" class="btn btn-dark btn-sm">Commander <i class="fa fa-long-arrow-alt-right"></i></a>
                 </td>
             </tr>
             {% endif %}
