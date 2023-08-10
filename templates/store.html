@@ -56,11 +56,11 @@
     <h3>Résultats de la recherche pour "{{ request.GET.search }}"</h3>
     
     <div>
-      {% if products %}
+      {% if menu_items %}
       <!-- Display items -->
       <div class="tab-content"></div>
       <div id="pizza" class="tab-pane fade in active">
-        {% for product in products %}
+        {% for product in menu_items %}
         <div class="row">
           <div class="rs-menu-list col-md-6">
             <h3>{{product.name}}</h3>
@@ -122,366 +122,95 @@
     </div>
     {% else %}
 
+    <!-- <div class="section-header">
+      <div class="section-heading">
+          <h2 class="title"><img src="{% static 'TDM LOGO_Plan de travail 1.svg' %}" alt="TDM"></h2>
+      </div>
+    </div> -->
+
     <div class="section-header">
       <div class="section-heading">
-        <h2 class="title"><img src="{% static 'TDM LOGO_Plan de travail 1.svg' %}" alt="TDM"></h2>
-      </div>
-    </div>
-
-    <ul id="menu-nav" class="nav nav-pills red">
-      <li id="tabs"><a id="defaultOpen" data-toggle="tab" href="#pizza">Pizza</a></li>
-      <li id="tabs"><a data-toggle="tab" href="#africaine">Africaine</a></li>
-      <li id="tabs"><a data-toggle="tab" href="#salades">Salades</a></li>
-      <li id="tabs"><a data-toggle="tab" href="#burgers">Burgers</a></li>
-      <li id="tabs"><a data-toggle="tab" href="#sandwiches">Sandwiches</a></li>
-      <li id="tabs"><a data-toggle="tab" href="#drinks">Boissons</a></li>
-
-
-    </ul>
-
-    <div class="tab-content">
-      <div id="pizza" class="tab-pane fade in active">
-        {% for product in pizza %}
-        <div class="row">
-          <div class="rs-menu-list col-md-6">
-            <h3>{{product.name}}</h3>
-            <p>{{product.description}}</p>
+          <div class="slider-container">
+              <img style="width: 300px; height: 150px" id="slider-image" src="{% static 'TDM LOGO_Plan de travail 1.svg' %}" alt="TDM">
           </div>
-          <div class="menu-pro-right col-md-6">
-            <div class="pro-icon col-md-3">
-              <div class="icon-box">
-                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
+      </div>
+  </div>
+  
+  
+  <ul id="menu-nav" class="nav nav-pills red">
+      {% for category in menu %}
+      <li id="tabs"><a data-toggle="tab" href="#{{ category.name|lower }}">{{ category.name }}</a></li>
+      {% endfor %}
+  </ul>
+  
+  <div class="tab-content">
+      {% for category in menu %}
+      <div id="{{ category.name|lower }}" class="tab-pane fade{% if forloop.first %} in active{% endif %}">
+          {% for product in category.items.all %}
+          <div class="row">
+              <div class="rs-menu-list col-md-6">
+                  <h3>{{ product.name }}</h3>
+                  <p>{{ product.description }}</p>
               </div>
-            </div>
-            <div class="pro-price col-md-3">
-              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
-            </div>
-            <div class="pro-cart col-md-5">
-              <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
-                data-target="#myModal1{{ forloop.counter }}">{% if store.membership != 'B' %}Ajouter<i class="material-icons cart">shopping_cart</i>{% else %}Afficher<i class="material-icons cart">visibility</i>{% endif %}</button>
-              <div class="modal fade" id="myModal1{{ forloop.counter }}" role="dialog">
-                <div id="modalcustom" class="modal-dialog modal-sm">
-
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div id="header-modal" class="modal-header">
-                      <button type="button" id="btn-close" class="close" data-dismiss="modal">&times;</button>
-                      <h4 id="title-modal" class="modal-title">{{product.name}}</h4>
-                    </div>
-                    <div class="row">
-                      <div id="custom-body" class="modal-body">
-                        <div class="col-md-12">
-                          <img src="{{product.imageURL}}">
-                        </div>
+              <div class="menu-pro-right col-md-6">
+                  <div class="pro-icon col-md-3">
+                      <div class="icon-box">
+                          <img style="height: 50px; width: 50px;" src="{{ product.imageURL }}" />
                       </div>
-                    </div>
-                    {% if store.membership != 'B' %}
-                    <div id="custom-footer" class="modal-footer">
-                    <div>
-                      <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
-                      </div>
-                        <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
-                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
-                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
-                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
-                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
-                            data-index="{{product.id}}">Confirmer</button>
-                    </div>
-                    {% endif %}
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-
-      </div>
-      <div id="africaine" class="tab-pane fade in active">
-        {% for product in africaine %}
-        <div class="row">
-          <div class="rs-menu-list col-md-6">
-            <h3>{{product.name}}</h3>
-            <p>{{product.description}}</p>
-          </div>
-          <div class="menu-pro-right col-md-6">
-            <div class="pro-icon col-md-3">
-              <div class="icon-box">
-                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
-              </div>
-            </div>
-            <div class="pro-price col-md-3">
-              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
-            </div>
-            <div class="pro-cart col-md-5">
-              <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
-                data-target="#africaineModal{{ forloop.counter }}">{% if store.membership != 'B' %}Ajouter<i class="material-icons cart">shopping_cart</i>{% else %}Afficher<i class="material-icons cart">visibility</i>{% endif %}</button>
-              <div class="modal fade" id="#africaineModal{{ forloop.counter }}" role="dialog">
-                <div id="modalcustom" class="modal-dialog modal-sm">
-
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div id="header-modal" class="modal-header">
-                      <button type="button" id="btn-close" class="close" data-dismiss="modal">&times;</button>
-                      <h4 id="title-modal" class="modal-title">{{product.name}}</h4>
-                    </div>
-                    <div class="row">
-                      <div id="custom-body" class="modal-body">
-                        <div class="col-md-12">
-                          <img src="{{product.imageURL}}">
-                        </div>
-                      </div>
-                    </div>
-                    {% if store.membership != 'B' %}
-                    <div id="custom-footer" class="modal-footer">
-                      <div>
-                      <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
-                      </div>
-                        <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
-                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
-                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
-                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
-                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
-                            data-index="{{product.id}}">Confirmer</button>
-                    </div>
-                    {% endif %}
+                  <div class="pro-price col-md-3">
+                      <h6 class="menuh6"><span class="product-price-{{ product.id }}">{{ product.price|floatformat:0 }}</span>f</h6>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-
-      </div>
-      <div id="salades" class="tab-pane fade in active">
-        {% for product in salade %}
-        <div class="row">
-          <div class="rs-menu-list col-md-6">
-            <h3>{{product.name}}</h3>
-            <p>{{product.description}}</p>
-          </div>
-          <div class="menu-pro-right col-md-6">
-            <div class="pro-icon col-md-3">
-              <div class="icon-box">
-                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
-              </div>
-            </div>
-            <div class="pro-price col-md-3">
-              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
-            </div>
-            <div class="pro-cart col-md-5">
-              <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
-                data-target="#myModal2{{ forloop.counter }}">{% if store.membership != 'B' %}Ajouter<i class="material-icons cart">shopping_cart</i>{% else %}Afficher<i class="material-icons cart">visibility</i>{% endif %}</button>
-              <div class="modal fade" id="myModal2{{ forloop.counter }}" role="dialog">
-                <div id="modalcustom" class="modal-dialog modal-sm">
-
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div id="header-modal" class="modal-header">
-                      <button type="button" id="btn-close" class="close" data-dismiss="modal">&times;</button>
-                      <h4 id="title-modal" class="modal-title">{{product.name}}</h4>
-                    </div>
-                    <div class="row">
-                      <div id="custom-body" class="modal-body">
-                        <div class="col-md-12">
-                          <img src="{{product.imageURL}}">
-                        </div>
+                  <div class="pro-cart col-md-5">
+                      <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
+                              data-target="#myModal1{{ product.id }}">
+                          {% if store.membership != 'B' %}
+                          Ajouter<i class="material-icons cart">shopping_cart</i>
+                          {% else %}
+                          Afficher<i class="material-icons cart">visibility</i>
+                          {% endif %}
+                      </button>
+                      <div class="modal fade" id="myModal1{{ product.id }}" role="dialog">
+                          <div id="modalcustom" class="modal-dialog modal-sm">
+                              <!-- Modal content-->
+                              <div class="modal-content">
+                                  <div id="header-modal" class="modal-header">
+                                      <button type="button" id="btn-close" class="close" data-dismiss="modal">&times;</button>
+                                      <h4 id="title-modal" class="modal-title">{{ product.name }}</h4>
+                                  </div>
+                                  <div class="row">
+                                      <div id="custom-body" class="modal-body">
+                                          <div class="col-md-12">
+                                              <img src="{{ product.imageURL }}">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  {% if store.membership != 'B' %}
+                                  <div id="custom-footer" class="modal-footer">
+                                      <div>
+                                          <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
+                                      </div>
+                                      <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                      <input type="hidden" value="1" class="form-control product-qty-{{ product.id }}" id="productQty" />
+                                      <input type="hidden" class="product-image-{{ product.id }}" value="{{ product.imageURL }}" />
+                                      <input type="hidden" class="product-id-{{ product.id }}" value="{{ product.id }}" />
+                                      <input type="hidden" class="product-name-{{ product.id }}" value="{{ product.name }}" />
+                                      <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
+                                              data-index="{{ product.id }}">Confirmer</button>
+                                  </div>
+                                  {% endif %}
+                              </div>
+                          </div>
                       </div>
-                    </div>
-                    {% if store.membership != 'B' %}
-                    <div id="custom-footer" class="modal-footer">
-                    <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
-                      <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
-                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
-                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
-                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
-                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
-                            data-index="{{product.id}}">Confirmer</button>
-                    </div>
-                    {% endif %}
                   </div>
-                </div>
               </div>
-            </div>
           </div>
-        </div>
-        {% endfor %}
-
+          {% endfor %}
       </div>
-      <div id="burgers" class="tab-pane fade in active">
-        {% for product in burger %}
-        <div class="row">
-          <div class="rs-menu-list col-md-6">
-            <h3>{{product.name}}</h3>
-            <p>{{product.description}}</p>
-          </div>
-          <div class="menu-pro-right col-md-6">
-            <div class="pro-icon col-md-3">
-              <div class="icon-box">
-                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
-              </div>
-            </div>
-            <div class="pro-price col-md-3">
-              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
-            </div>
-            <div class="pro-cart col-md-5">
-              <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
-                data-target="#myModal3{{ forloop.counter }}">{% if store.membership != 'B' %}Ajouter<i class="material-icons cart">shopping_cart</i>{% else %}Afficher<i class="material-icons cart">visibility</i>{% endif %}</button>
-              <div class="modal fade" id="myModal3{{ forloop.counter }}" role="dialog">
-                <div id="modalcustom" class="modal-dialog modal-sm">
-
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div id="header-modal" class="modal-header">
-                      <button type="button" id="btn-close" class="close" data-dismiss="modal">&times;</button>
-                      <h4 id="title-modal" class="modal-title">{{product.name}}</h4>
-                    </div>
-                    <div class="row">
-                      <div id="custom-body" class="modal-body">
-                        <div class="col-md-12">
-                          <img src="{{product.imageURL}}">
-                        </div>
-                      </div>
-                    </div>
-                    {% if store.membership != 'B' %}
-                    <div id="custom-footer" class="modal-footer">
-                    <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
-                      <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
-                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
-                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
-                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
-                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
-                            data-index="{{product.id}}">Confirmer</button>
-                    </div>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-
-      </div>
-      <div id="sandwiches" class="tab-pane fade in active">
-        {% for product in sandwich %}
-        <div class="row">
-          <div class="rs-menu-list col-md-6">
-            <h3>{{product.name}}</h3>
-            <p>{{product.description}}</p>
-          </div>
-          <div class="menu-pro-right col-md-6">
-            <div class="pro-icon col-md-3">
-              <div class="icon-box">
-                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
-              </div>
-            </div>
-            <div class="pro-price col-md-3">
-              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
-            </div>
-            <div class="pro-cart col-md-5">
-              <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
-                data-target="#myModal4{{ forloop.counter }}">{% if store.membership != 'B' %}Ajouter<i class="material-icons cart">shopping_cart</i>{% else %}Afficher<i class="material-icons cart">visibility</i>{% endif %}</button>
-              <div class="modal fade" id="myModal4{{ forloop.counter }}" role="dialog">
-                <div id="modalcustom" class="modal-dialog modal-sm">
-
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div id="header-modal" class="modal-header">
-                      <button type="button" id="btn-close" class="close" data-dismiss="modal">&times;</button>
-                      <h4 id="title-modal" class="modal-title">{{product.name}}</h4>
-                    </div>
-                    <div class="row">
-                      <div id="custom-body" class="modal-body">
-                        <div class="col-md-12">
-                          <img src="{{product.imageURL}}">
-                        </div>
-                      </div>
-                    </div>
-                    {% if store.membership != 'B' %}
-                    <div id="custom-footer" class="modal-footer">
-                    <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
-                      <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
-                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
-                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
-                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
-                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
-                            data-index="{{product.id}}">Confirmer</button>
-                    </div>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-
-      </div>
-      <div id="drinks" class="tab-pane fade in active">
-        {% for product in boisson %}
-        <div class="row">
-          <div class="rs-menu-list col-md-6">
-            <h3>{{product.name}}</h3>
-            <p>{{product.description}}</p>
-          </div>
-          <div class="menu-pro-right col-md-6">
-            <div class="pro-icon col-md-3">
-              <div class="icon-box">
-                <img style="height: 50px; width: 50px;" src="{{product.imageURL}}" />
-              </div>
-            </div>
-            <div class="pro-price col-md-3">
-              <h6 class="menuh6"><span class="product-price-{{product.id}}">{{product.price|floatformat:0}}</span>f</h6>
-            </div>
-            <div class="pro-cart col-md-5">
-              <button type="button" id="modalpopup" class="btn btn-lg" data-toggle="modal"
-                data-target="#myModal5{{ forloop.counter }}">{% if store.membership != 'B' %}Ajouter<i class="material-icons cart">shopping_cart</i>{% else %}Afficher<i class="material-icons cart">visibility</i>{% endif %}</button>
-              <div class="modal fade" id="myModal5{{ forloop.counter }}" role="dialog">
-                <div id="modalcustom" class="modal-dialog modal-sm">
-
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div id="header-modal" class="modal-header">
-                      <button type="button" id="btn-close" class="close" data-dismiss="modal">&times;</button>
-                      <h4 id="title-modal" class="modal-title">{{product.name}}</h4>
-                    </div>
-                    <div class="row">
-                      <div id="custom-body" class="modal-body">
-                        <div class="col-md-12">
-                          <img src="{{product.imageURL}}">
-                        </div>
-                      </div>
-                    </div>
-                    {% if store.membership != 'B' %}
-                    <div id="custom-footer" class="modal-footer">
-                    <h3 style="font:bold; font-weight: 100px; color: #312783;" class="modal-title">AJOUTER AU PANIER ?</h3>
-                      <button id="btn-custom" type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <input type="hidden" value="1" class="form-control product-qty-{{product.id}}" id="productQty" />
-                        <input type="hidden" class="product-image-{{product.id}}" value="{{product.imageURL}}" />
-                        <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
-                        <input type="hidden" class="product-name-{{product.id}}" value="{{product.name}}" />
-                        <button id="btn-custom" type="button" class="btn btn-default add-to-cart" data-dismiss="modal"
-                            data-index="{{product.id}}">Confirmer</button>
-                    </div>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-
-      </div>
+      {% endfor %}
+  </div>
      
-    </div>
+  </div>
     {% endif %}
 
   </div>
@@ -524,5 +253,32 @@ $(document).on("click", ".add-to-cart", function () {
 });
 // End
 </script>
+
+<script>
+  // Define an array of image URLs for the slider
+  var images = [
+      "{% static 'TDM LOGO_Plan de travail 1.svg' %}",
+      "{% static 'ads/miajoe.png' %}",
+      "{% static 'ads/opera.jpg' %}"
+      // Add more image URLs as needed
+  ];
+
+  var currentIndex = 0;
+
+  // Function to update the slider image
+  function updateSliderImage() {
+      $("#slider-image").fadeOut(500, function () {
+          $(this).attr("src", images[currentIndex]);
+          $(this).fadeIn(500);
+      });
+
+      // Increment index and loop back to the first image
+      currentIndex = (currentIndex + 1) % images.length;
+  }
+
+  // Set interval to update the slider image every 5 seconds
+  setInterval(updateSliderImage, 5000); // Change the duration as desired
+</script>
+
 
 </html>

@@ -37,13 +37,19 @@ class Table(models.Model):
     def __str__(self):
         return f"{self.store.name} - {self.table_no}"
     
+class Menu(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
 
-class Item(models.Model):
-    store = models.ManyToManyField(Store)
+    def __str__(self):
+        return f"{self.store.name} - {self.name}"
+    
+
+class MenuItem(models.Model):
+    menu = models.ManyToManyField(Menu, related_name='items')
     name = models.CharField(max_length=30)
     price = models.IntegerField()
     image = models.ImageField(null=True, blank=True)
-    categorie = models.CharField(max_length=30)
     description = models.TextField()
 
     def __str__(self):

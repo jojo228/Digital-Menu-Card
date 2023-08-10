@@ -11,6 +11,7 @@ class StoreAdmin(admin.ModelAdmin):
 
 admin.site.register(Store, StoreAdmin)
 admin.site.register(Table)
-admin.site.register(Item)
+admin.site.register(Menu)
+admin.site.register(MenuItem)
 admin.site.register(OrderItem)
 admin.site.register(Subscription)

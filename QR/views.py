@@ -29,48 +29,46 @@ def store(request, slug, table_id):
     # Store the table ID in a global variable for future use
     global present_pk
 
-    # Get the store object based on the provided slug
-    store = Store.objects.get(slug=slug)
+    try:
+        # Get the store object based on the provided slug
+        store = Store.objects.get(slug=slug)
 
-    # Check if the store is active
-    if not store.is_active():
-        # Handle the case when the store is not active
-        return render(request, "inactive_store.html")
+        # Check if the store is active
+        if not store.is_active():
+            # Handle the case when the store is not active
+            return render(request, "inactive_store.html")
 
-    # Store the table ID
-    present_pk = table_id
+        # Store the table ID
+        present_pk = table_id
 
-    # Retrieve all items belonging to the specific store
-    products = Item.objects.filter(store=store)
+        # Retrieve the menu for the specific store
+        try:
+            menu = Menu.objects.filter(store=store)
+        except Menu.DoesNotExist:
+            menu = None
 
-    # Filter products by category
-    pizza = products.filter(categorie="Pizza")
-    sandwich = products.filter(categorie="Sandwichs")
-    burger = products.filter(categorie="Burgers")
-    boisson = products.filter(categorie="Boissons")
-    salade = products.filter(categorie="Salades")
-    africaine = products.filter(categorie="Africaine")
+        # Retrieve all menu items belonging to the specific menu
+        menu_items = MenuItem.objects.filter(menu__in=menu)
 
-    # Search functionality
-    search_query = request.GET.get("search")
-    if search_query:
-        products = products.filter(name__icontains=search_query)
+        # Search functionality
+        search_query = request.GET.get("search")
+        if search_query:
+            menu_items = menu_items.filter(name__icontains=search_query)
 
-    # Create a context dictionary with the retrieved data
-    context = {
-        "products": products,
-        "pizza": pizza,
-        "sandwich": sandwich,
-        "burger": burger,
-        "boisson": boisson,
-        "salade": salade,
-        "africaine": africaine,
-        "store": store,
-        "table": table_id,
-    }
+        # Create a context dictionary with the retrieved data
+        context = {
+            "menu_items": menu_items,
+            "menu": menu,
+            "store": store,
+            "table": table_id,
+        }
 
-    # Render the store.html template with the provided context
-    return render(request, "store.html", context)
+        # Render the store.html template with the provided context
+        return render(request, "store.html", context)
+
+    except Store.DoesNotExist:
+        # Handle the case when the store doesn't exist
+        return render(request, "invalid_store.html")
 
 
 # Add to cart
