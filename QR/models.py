@@ -40,6 +40,7 @@ class Table(models.Model):
 class Menu(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
+    date = models.DateField(default=timezone.now)
 
     def __str__(self):
         return f"{self.store.name} - {self.name}"
